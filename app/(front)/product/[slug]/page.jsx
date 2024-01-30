@@ -33,7 +33,7 @@ const ProductDetails = ({ params }) => {
 
       {/* Product Detail Starts   */}
 
-      <div className="flex flex-col border border-black self-start ">
+      <div className="flex flex-col border border-black self-start text-sm">
         <div className="border-b border-black p-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <h1>{product.name}</h1>
@@ -53,7 +53,10 @@ const ProductDetails = ({ params }) => {
           <div className="grid grid-cols-2 gap-4">
             {product?.sizes?.map((size) => {
               return (
-                <button className="uppercase border border-black font-extralight p-2 hover:bg-gray-200">
+                <button
+                  key={size}
+                  className="uppercase border border-black font-extralight p-2 hover:bg-gray-200"
+                >
                   {size}
                 </button>
               );

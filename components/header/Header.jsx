@@ -9,7 +9,7 @@ import close_btn from '@/assets/close_btn.svg';
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   return (
-    <header className="w-screen md:p-8 p-2 font-light sticky top-0 z-10">
+    <header className="w-screen md:p-8 p-4 font-light sticky top-0 z-10 tracking-wide ">
       <nav className="w-full flex gap-2 justify-between">
         <div>
           {toggleMenu ? (
