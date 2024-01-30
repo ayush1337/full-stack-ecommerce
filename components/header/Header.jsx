@@ -9,8 +9,8 @@ import close_btn from '@/assets/close_btn.svg';
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   return (
-    <header className="w-screen p-8 font-light">
-      <nav className="w-full flex justify-between">
+    <header className="w-screen md:p-8 p-2 font-light">
+      <nav className="w-full flex gap-2 justify-between">
         <div>
           {toggleMenu ? (
             <button onClick={() => setToggleMenu((p) => !p)}>
@@ -24,18 +24,29 @@ const Header = () => {
         </div>
         <div>
           <Link href="/">
-            <Image src={zara_logo} width={350} height={350}></Image>
+            <Image
+              src={zara_logo}
+              width={350}
+              height={350}
+              className="hidden md:block"
+            ></Image>
+            <Image
+              src={zara_logo}
+              width={100}
+              height={100}
+              className="md:hidden"
+            ></Image>
           </Link>
         </div>
         <Link href="/">
-          <div className="bg-white border border-black h-6 min-w-[300px] flex items-center p-4">
+          <div className="bg-white border border-black h-6 min-w-[300px] md:flex items-center p-4 hidden">
             <div className="flex-grow"></div>
             <div className="ml-auto uppercase">Search</div>
           </div>
         </Link>
-        <ul className="flex uppercase gap-5">
+        <ul className="flex uppercase gap-5 text-xs">
           <li>Log in</li>
-          <li>Help</li>
+          <li className="hidden lg:block">Help</li>
           <li>Shopping Bag(0)</li>
         </ul>
       </nav>

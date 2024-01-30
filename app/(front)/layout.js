@@ -1,3 +1,3 @@
 export default function FrontLayout({ children }) {
-  return <main>{children}</main>;
+  return <main className="w-full min-h-screen">{children}</main>;
 }
