@@ -9,16 +9,26 @@ import close_btn from '@/assets/close_btn.svg';
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   return (
-    <header className="w-screen md:p-8 p-2 font-light">
+    <header className="w-screen md:p-8 p-2 font-light sticky top-0 z-10">
       <nav className="w-full flex gap-2 justify-between">
         <div>
           {toggleMenu ? (
             <button onClick={() => setToggleMenu((p) => !p)}>
-              <Image src={menu} width={25} height={25}></Image>
+              <Image
+                alt="open button"
+                src={menu}
+                width={25}
+                height={25}
+              ></Image>
             </button>
           ) : (
             <button onClick={() => setToggleMenu((p) => !p)}>
-              <Image src={close_btn} width={25} height={25}></Image>
+              <Image
+                alt="close button"
+                src={close_btn}
+                width={25}
+                height={25}
+              ></Image>
             </button>
           )}
         </div>
@@ -28,13 +38,15 @@ const Header = () => {
               src={zara_logo}
               width={350}
               height={350}
-              className="hidden md:block"
+              className="hidden md:block "
+              alt="zara logo"
             ></Image>
             <Image
               src={zara_logo}
               width={100}
               height={100}
-              className="md:hidden"
+              className="md:hidden "
+              alt="zara logo"
             ></Image>
           </Link>
         </div>
