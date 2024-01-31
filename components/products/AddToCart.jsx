@@ -2,15 +2,18 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { add, remove, deleteItem } from '@/lib/features/cartSlice';
+
+import { add, remove } from '@/lib/features/cartSlice';
+
 import addIco from '@/assets/add.svg';
-import sub from '@/assets/sub.svg';
+import subIco from '@/assets/sub.svg';
 
 const AddToCart = ({ product }) => {
   const [mount, setMount] = useState(false);
   const [selectSize, setSelectSize] = useState('');
   const [noSize, setNoSize] = useState(false);
-  const [showAddToCart, setShowAddToCart] = useState(true);
+  const [quantity, setQuantity] = useState(0);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
@@ -19,8 +22,42 @@ const AddToCart = ({ product }) => {
   }, []);
 
   useEffect(() => {
+    let notFound = true;
+    cart.products.forEach((cartProduct) => {
+      if (cartProduct.id === product.id && cartProduct.size === selectSize) {
+        setQuantity(() => cartProduct.quantity);
+        notFound = false;
+      }
+    });
+    if (notFound) setQuantity(() => 0);
+  }, [selectSize, cart]);
+
+  useEffect(() => {
     localStorage.setItem('zara-cart', JSON.stringify(cart));
   }, [cart]);
+
+  const handleProductIncrease = async () => {
+    if (isButtonDisabled) return;
+    setButtonDisabled(true);
+    try {
+      await dispatch(add({ ...product, size: selectSize }));
+    } finally {
+      setButtonDisabled(false);
+    }
+  };
+
+  const handleProductDecrease = async () => {
+    if (isButtonDisabled) return;
+    setButtonDisabled(true);
+    try {
+      if (quantity === 1) {
+        setQuantity(() => 0);
+      }
+      await dispatch(remove({ id: product.id, size: selectSize }));
+    } finally {
+      setButtonDisabled(false);
+    }
+  };
 
   if (!mount) return <></>;
   return (
@@ -51,7 +88,6 @@ const AddToCart = ({ product }) => {
                 }`}
                 onClick={() => {
                   setNoSize(() => false);
-                  setShowAddToCart(() => true);
                   setSelectSize((p) => {
                     return p === size ? '' : size;
                   });
@@ -65,14 +101,20 @@ const AddToCart = ({ product }) => {
       </div>
 
       {/* ADD TO CART BUTTON */}
-      {showAddToCart && (
+      {quantity === 0 && (
         <button
           onClick={() => {
             if (selectSize === '') {
               setNoSize(() => true);
             }
             if (selectSize !== '') {
-              setShowAddToCart(() => false);
+              dispatch(
+                add({
+                  ...product,
+                  quantity: 1,
+                  size: selectSize,
+                })
+              );
             }
           }}
           className={`py-4 uppercase flex items-center justify-center font-normal hover:text-gray-400  ${
@@ -87,13 +129,26 @@ const AddToCart = ({ product }) => {
 
       {/* ADD REMOVE CART BUTTONS */}
 
-      {!showAddToCart && (
+      {quantity > 0 && (
         <div className="w-full flex p-2 items-center justify-evenly gap-2">
-          <button className=" border border-black rounded-full p-[6px]">
-            <Image src={sub} alt="remove cart" width={15} height={15}></Image>
+          <button
+            onClick={handleProductDecrease}
+            className=" border border-black rounded-full p-[6px]"
+            disabled={isButtonDisabled}
+          >
+            <Image
+              src={subIco}
+              alt="remove cart"
+              width={15}
+              height={15}
+            ></Image>
           </button>
-          <span>0</span>
-          <button className="border border-black rounded-full p-[6px]">
+          <span>{quantity}</span>
+          <button
+            onClick={handleProductIncrease}
+            className="border border-black rounded-full p-[6px]"
+            disabled={isButtonDisabled}
+          >
             <Image src={addIco} alt="add cart" width={15} height={15}></Image>
           </button>
         </div>
