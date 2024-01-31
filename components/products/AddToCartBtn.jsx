@@ -1,15 +1,21 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import add_to_cart_btn from '@/assets/add_to_cart_btn.svg';
 import close_btn from '@/assets/close_btn.svg';
-import add from '@/assets/add.svg';
-import sub from '@/assets/sub.svg';
+
+import AddToCart from './AddToCart';
 
 const AddToCartBtn = ({ product }) => {
+  const [mount, setMount] = useState(false);
   const [active, setActive] = useState(true);
-  const [selectSize, setSelectSize] = useState('');
+
+  useEffect(() => {
+    setMount(() => true);
+  }, []);
+
+  if (!mount) return <></>;
   return (
     <>
       {active ? (
@@ -37,41 +43,8 @@ const AddToCartBtn = ({ product }) => {
               className="ml-auto border border-black rounded-full p-[2px]"
             ></Image>
           </button>
-          <div className="grid grid-cols-2 gap-4">
-            {product?.sizes?.map((size) => {
-              return (
-                <button
-                  key={size}
-                  className={`uppercase border border-black font-extralight p-2 hover:bg-gray-200 ${
-                    selectSize === size ? 'bg-gray-200' : 'bg-white'
-                  }`}
-                  onClick={() => {
-                    setSelectSize((p) => {
-                      return p === size ? '' : size;
-                    });
-                  }}
-                >
-                  {size}
-                </button>
-              );
-            })}
-          </div>
-          {selectSize && (
-            <div className="w-full flex p-2 items-center justify-evenly gap-2">
-              <button className=" border border-black rounded-full p-[6px]">
-                <Image
-                  src={sub}
-                  alt="remove cart"
-                  width={15}
-                  height={15}
-                ></Image>
-              </button>
-              <span>0</span>
-              <button className="border border-black rounded-full p-[6px]">
-                <Image src={add} alt="add cart" width={15} height={15}></Image>
-              </button>
-            </div>
-          )}
+
+          <AddToCart product={product} />
         </div>
       )}
     </>

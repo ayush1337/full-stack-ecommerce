@@ -34,8 +34,8 @@ const ProductDetails = ({ params }) => {
 
       {/* Product Detail Starts   */}
 
-      <div className="flex flex-col border border-black self-start text-sm">
-        <div className="border-b border-black p-6 flex flex-col gap-4">
+      <div className="flex flex-col self-start text-sm">
+        <div className="border border-black border-b-0 p-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <h1>{product.name}</h1>
             <span>
@@ -50,7 +50,7 @@ const ProductDetails = ({ params }) => {
           <div>{product.description}</div>
         </div>
 
-        <AddToCart product={product} />
+        <AddToCart product={product} sizeBorder={true} />
       </div>
 
       {/* Product Detail Ends   */}

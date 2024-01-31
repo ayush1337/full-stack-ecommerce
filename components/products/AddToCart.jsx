@@ -8,7 +8,7 @@ import { add, remove } from '@/lib/features/cartSlice';
 import addIco from '@/assets/add.svg';
 import subIco from '@/assets/sub.svg';
 
-const AddToCart = ({ product }) => {
+const AddToCart = ({ product, sizeBorder = false }) => {
   const [mount, setMount] = useState(false);
   const [selectSize, setSelectSize] = useState('');
   const [noSize, setNoSize] = useState(false);
@@ -62,7 +62,11 @@ const AddToCart = ({ product }) => {
   if (!mount) return <></>;
   return (
     <>
-      <div className="border-b border-black p-6 flex flex-col gap-4">
+      <div
+        className={`${
+          sizeBorder ? 'border border-black border-b-0' : ''
+        } p-6 flex flex-col gap-4`}
+      >
         <span className="text-xs">{`BLACK | (2110 / 775)`}</span>
 
         {/* WRANING TEXT START */}
@@ -117,7 +121,7 @@ const AddToCart = ({ product }) => {
               );
             }
           }}
-          className={`py-4 uppercase flex items-center justify-center font-normal hover:text-gray-400  ${
+          className={`py-4 border border-black uppercase flex items-center justify-center font-normal hover:text-gray-400  ${
             selectSize !== ''
               ? 'bg-black text-white font-normal hover:text-white'
               : 'bg-white'
