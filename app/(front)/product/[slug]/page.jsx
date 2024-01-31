@@ -1,3 +1,4 @@
+import AddToCart from '@/components/products/AddToCart';
 import data from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -48,24 +49,8 @@ const ProductDetails = ({ params }) => {
           <span className="uppercase">{`Zara ${product.gender} Collection`}</span>
           <div>{product.description}</div>
         </div>
-        <div className="border-b border-black p-6 flex flex-col gap-4">
-          <span className="text-xs">{`BLACK | (2110 / 775)`}</span>
-          <div className="grid grid-cols-2 gap-4">
-            {product?.sizes?.map((size) => {
-              return (
-                <button
-                  key={size}
-                  className="uppercase border border-black font-extralight p-2 hover:bg-gray-200"
-                >
-                  {size}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <button className="py-4 uppercase flex items-center justify-center font-normal hover:text-gray-400">
-          Add to cart
-        </button>
+
+        <AddToCart product={product} />
       </div>
 
       {/* Product Detail Ends   */}
