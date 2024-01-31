@@ -1,7 +1,6 @@
 import AddToCart from '@/components/products/AddToCart';
 import data from '@/lib/data';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const ProductDetails = ({ params }) => {
   const product = data.products.find((product) => product.slug === params.slug);

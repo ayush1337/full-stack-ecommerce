@@ -32,9 +32,9 @@ const AddToCart = ({ product, sizeBorder = false }) => {
     if (notFound) setQuantity(() => 0);
   }, [selectSize, cart]);
 
-  useEffect(() => {
-    localStorage.setItem('zara-cart', JSON.stringify(cart));
-  }, [cart]);
+  // useEffect(() => {
+  //   localStorage.setItem('zara-cart', JSON.stringify(cart));
+  // }, [cart]);
 
   const handleProductIncrease = async () => {
     if (isButtonDisabled) return;
@@ -134,7 +134,11 @@ const AddToCart = ({ product, sizeBorder = false }) => {
       {/* ADD REMOVE CART BUTTONS */}
 
       {quantity > 0 && (
-        <div className="w-full flex p-2 items-center justify-evenly gap-2">
+        <div
+          className={`${
+            sizeBorder ? 'border border-black p-4' : ''
+          } w-full flex  items-center justify-evenly gap-2`}
+        >
           <button
             onClick={handleProductDecrease}
             className=" border border-black rounded-full p-[6px]"

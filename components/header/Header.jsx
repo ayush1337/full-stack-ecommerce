@@ -59,7 +59,9 @@ const Header = () => {
         <ul className="flex uppercase gap-5 text-xs">
           <li>Log in</li>
           <li className="hidden lg:block">Help</li>
-          <li>Shopping Bag(0)</li>
+          <li>
+            <Link href="/cart">Shopping Bag(0)</Link>
+          </li>
         </ul>
       </nav>
     </header>
