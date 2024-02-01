@@ -17,7 +17,7 @@ const ProductItem = ({ product }) => {
         <AddToCartBtn product={product} />
       </figure>
       <div className="font-extralight text-xs flex flex-col gap-1">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}/${product.id}`}>
           <h2 className="hover:underline">{product.name}</h2>
         </Link>
         <span className="text-xs">
