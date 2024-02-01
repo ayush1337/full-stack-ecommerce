@@ -38,7 +38,8 @@ const Header = () => {
               src={zara_logo}
               width={350}
               height={350}
-              className="hidden md:block "
+              className="hidden md:block"
+              priority={true}
               alt="zara logo"
             ></Image>
             <Image
@@ -46,6 +47,7 @@ const Header = () => {
               width={100}
               height={100}
               className="md:hidden "
+              priority={true}
               alt="zara logo"
             ></Image>
           </Link>

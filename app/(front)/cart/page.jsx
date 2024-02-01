@@ -1,11 +1,12 @@
 import React from 'react';
+import CartProducts from './CartProducts';
 import CartDetails from './CartDetails';
 
 const CartPage = () => {
   return (
-    <div className="w-screen grid grid-cols-4 lg:px-36 px-8 overflow-x-hidden">
+    <div className="w-screen grid grid-cols-4 gap-2 lg:px-36 px-8">
+      <CartProducts />
       <CartDetails />
-      <div></div>
     </div>
   );
 };

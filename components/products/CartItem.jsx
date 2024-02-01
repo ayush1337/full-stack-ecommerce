@@ -8,6 +8,7 @@ import { add, remove, deleteItem, empty } from '@/lib/features/cartSlice';
 
 import addIco from '@/assets/add.svg';
 import subIco from '@/assets/sub.svg';
+import trashIco from '@/assets/dustbin.svg';
 
 const CartItem = ({ product }) => {
   const [mount, setMount] = useState(false);
@@ -36,16 +37,32 @@ const CartItem = ({ product }) => {
     dispatch(remove({ id: product.id, size: product.size }));
   };
 
+  const handleProductDelete = () => {
+    dispatch(deleteItem({ id: product.id, size: product.size }));
+  };
+
   if (!mount) return <></>;
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
+      <button
+        className="bg-white bg-opacity-50 opacity-80 p-2 rounded-full  absolute right-2 top-2"
+        onClick={handleProductDelete}
+      >
+        <Image
+          src={trashIco}
+          width={15}
+          height={15}
+          alt="delete product"
+        ></Image>
+      </button>
       <figure className="border border-black">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}/${product.id}`}>
           <Image
             src={product.image}
             alt={product.name}
-            width={200}
-            height={200}
+            width={300}
+            height={100}
+            priority={true}
             className="object-cover object-center w-full"
           ></Image>
         </Link>
@@ -53,8 +70,10 @@ const CartItem = ({ product }) => {
       </figure>
       <div className="font-extralight text-xs flex flex-col gap-1 border border-black border-t-0 p-2">
         <div className="flex justify-between  items-center">
-          <Link href={`/product/${product.slug}`}>
-            <h2 className="hover:underline font-normal">{product.name}</h2>
+          <Link href={`/product/${product.slug}/${product.id}`}>
+            <h2 className="hover:underline font-normal max-w-[100px] truncate">
+              {product.name}
+            </h2>
           </Link>
           <span>BLACK | (2110 / 775)</span>
         </div>

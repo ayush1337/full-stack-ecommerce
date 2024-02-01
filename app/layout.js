@@ -13,9 +13,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={(inter.className, `overflow-x-hidden tracking-wide`)}>
+      <body
+        className={
+          (inter.className, `overflow-x-hidden tracking-wide box-border`)
+        }
+        suppressHydrationWarning={true}
+      >
         <Providers>
-          <div className="relative">
+          <div className="relative w-screen ">
             <Header />
             {children}
             <Footer />

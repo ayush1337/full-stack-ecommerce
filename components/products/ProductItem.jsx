@@ -5,7 +5,7 @@ const ProductItem = ({ product }) => {
   return (
     <div className="flex flex-col gap-2">
       <figure className="relative">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${product.slug}/${product.id}`}>
           <Image
             src={product.image}
             alt={product.name}

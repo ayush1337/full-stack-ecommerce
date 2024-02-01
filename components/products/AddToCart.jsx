@@ -13,7 +13,6 @@ const AddToCart = ({ product, sizeBorder = false }) => {
   const [selectSize, setSelectSize] = useState('');
   const [noSize, setNoSize] = useState(false);
   const [quantity, setQuantity] = useState(0);
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
@@ -32,31 +31,12 @@ const AddToCart = ({ product, sizeBorder = false }) => {
     if (notFound) setQuantity(() => 0);
   }, [selectSize, cart]);
 
-  // useEffect(() => {
-  //   localStorage.setItem('zara-cart', JSON.stringify(cart));
-  // }, [cart]);
-
-  const handleProductIncrease = async () => {
-    if (isButtonDisabled) return;
-    setButtonDisabled(true);
-    try {
-      await dispatch(add({ ...product, size: selectSize }));
-    } finally {
-      setButtonDisabled(false);
-    }
+  const handleProductIncrease = () => {
+    dispatch(add({ ...product, size: selectSize }));
   };
 
-  const handleProductDecrease = async () => {
-    if (isButtonDisabled) return;
-    setButtonDisabled(true);
-    try {
-      if (quantity === 1) {
-        setQuantity(() => 0);
-      }
-      await dispatch(remove({ id: product.id, size: selectSize }));
-    } finally {
-      setButtonDisabled(false);
-    }
+  const handleProductDecrease = () => {
+    dispatch(remove({ id: product.id, size: selectSize }));
   };
 
   if (!mount) return <></>;
@@ -142,7 +122,6 @@ const AddToCart = ({ product, sizeBorder = false }) => {
           <button
             onClick={handleProductDecrease}
             className=" border border-black rounded-full p-[6px]"
-            disabled={isButtonDisabled}
           >
             <Image
               src={subIco}
@@ -155,7 +134,6 @@ const AddToCart = ({ product, sizeBorder = false }) => {
           <button
             onClick={handleProductIncrease}
             className="border border-black rounded-full p-[6px]"
-            disabled={isButtonDisabled}
           >
             <Image src={addIco} alt="add cart" width={15} height={15}></Image>
           </button>

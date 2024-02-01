@@ -3,7 +3,9 @@ import data from '@/lib/data';
 import Image from 'next/image';
 
 const ProductDetails = ({ params }) => {
-  const product = data.products.find((product) => product.slug === params.slug);
+  const product = data.products.find(
+    (product) => product.id === params.product_id
+  );
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -28,6 +30,7 @@ const ProductDetails = ({ params }) => {
         width={1000}
         height={750}
         alt={product.name}
+        priority={true}
       ></Image>
       {/* Product Image Engs   */}
 
