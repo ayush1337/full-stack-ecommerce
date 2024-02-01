@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import CartItem from '@/components/products/CartItem';
+import Image from 'next/image';
+
+import cartEmpty from '@/assets/empty_cart.svg';
 
 export default function CartProducts() {
   const router = useRouter();
@@ -22,9 +25,21 @@ export default function CartProducts() {
         Shopping Bag ({cart.products.length})
       </h1>
       {cart.products.length === 0 ? (
-        <div>
-          Cart is Empty. <Link href="/">Go shopping</Link>
-        </div>
+        <>
+          <Image
+            src={cartEmpty}
+            width={500}
+            height={500}
+            alt="empty shopping cart"
+            priority={true}
+          ></Image>
+          <div className="flex items-center gap-4 text-xs md:text-sm ">
+            {'Cart is Empty :( '}
+            <Link href="/" className="bg-black text-white px-4 py-2">
+              Go shopping
+            </Link>
+          </div>
+        </>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-4 place-items-center gap-6 w-full">
           {cart.products.map((product) => {

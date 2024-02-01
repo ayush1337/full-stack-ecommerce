@@ -1,13 +1,27 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
 import zara_logo from '@/assets/zara_logo.svg';
 import menu from '@/assets/menu.svg';
 import close_btn from '@/assets/close_btn.svg';
+import cartIco from '@/assets/cart_ico.svg';
 
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const cart = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    let total = 0;
+    cart.products.forEach((product) => {
+      total += product.quantity;
+    });
+    setTotalProducts(() => total);
+  }, [cart]);
+
   return (
     <header className="w-screen md:p-8 p-4 font-light sticky top-0 z-10 tracking-wide ">
       <nav className="w-full flex gap-2 justify-between">
@@ -33,20 +47,20 @@ const Header = () => {
           )}
         </div>
         <div>
-          <Link href="/">
+          <Link href="/" className="hidden md:block">
             <Image
               src={zara_logo}
               width={350}
               height={350}
-              className="hidden md:block"
               priority={true}
               alt="zara logo"
             ></Image>
+          </Link>
+          <Link href="/" className="md:hidden">
             <Image
               src={zara_logo}
               width={100}
               height={100}
-              className="md:hidden "
               priority={true}
               alt="zara logo"
             ></Image>
@@ -58,11 +72,21 @@ const Header = () => {
             <div className="ml-auto uppercase">Search</div>
           </div>
         </Link>
-        <ul className="flex uppercase gap-5 text-xs">
+        <ul className="flex uppercase gap-5 text-sm items-start">
           <li>Log in</li>
           <li className="hidden lg:block">Help</li>
           <li>
-            <Link href="/cart">Shopping Bag(0)</Link>
+            <Link href="/cart" className="relative">
+              <Image
+                src={cartIco}
+                width={40}
+                height={25}
+                alt="shopping cart"
+              ></Image>
+              <div className="bg-amber-400 rounded-full top-0 right-0 absolute h-5 w-5 flex justify-center items-center font-normal text-xs">
+                {totalProducts}
+              </div>
+            </Link>
           </li>
         </ul>
       </nav>
