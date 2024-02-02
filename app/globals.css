@@ -5,3 +5,17 @@
 * {
   box-sizing: border-box;
 }
+
+.label {
+  @apply absolute top-0 left-0 w-full text-gray-400 transition-all duration-200 cursor-text uppercase;
+}
+
+.input {
+  @apply w-full outline-none py-2 shadow-none text-black  border-b border-gray-400;
+}
+.input:focus ~ label,
+.input:valid ~ label {
+  font-size: 14px;
+  top: -24px;
+  color: #000;
+}

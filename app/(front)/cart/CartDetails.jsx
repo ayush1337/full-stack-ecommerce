@@ -18,7 +18,7 @@ const CartDetails = () => {
       {price > 0 && (
         <div className="w-full bg-white flex  items-center  fixed bottom-0 z-20 right-0 border-y border-black">
           <div className="ml-auto  p-2 flex flex-col tracking-wider">
-            <div className="font-bold text-xs">
+            <div className="font-bold text-xs flex gap-2">
               TOTAL
               <span>
                 {new Intl.NumberFormat('en-IN', {

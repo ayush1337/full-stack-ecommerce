@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning={true}
       >
         <Providers>
-          <div className="relative w-screen ">
+          <div className="relative ">
             <Header />
             {children}
             <Footer />
