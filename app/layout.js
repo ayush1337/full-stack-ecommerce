@@ -3,6 +3,7 @@ import './globals.css';
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
 import Providers from '@/lib/provider';
+import Notifications from '@/components/Notifications';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           <div className="relative ">
             <Header />
             {children}
+            <Notifications />
             <Footer />
           </div>
         </Providers>

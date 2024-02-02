@@ -32,7 +32,15 @@ const RegisterForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      fetch('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify(values),
+      }).then(async (res) => {
+        if (res.ok) {
+          const { message } = await res.json();
+          toast.success(message);
+        }
+      });
     },
   });
 

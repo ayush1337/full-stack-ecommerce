@@ -65,7 +65,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
             return (
               <button
                 key={size}
-                className={`uppercase border border-black font-extralight p-2 hover:bg-gray-200 ${
+                className={`uppercase border border-black font-extralight p-2 hover:bg-gray-200 hover:text-black ${
                   selectSize === size
                     ? 'bg-black text-white font-normal hover:bg-black hover:text-white'
                     : 'bg-white'
