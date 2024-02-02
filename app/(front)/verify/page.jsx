@@ -18,7 +18,9 @@ const page = (props) => {
     }).then(async (res) => {
       const { error } = await res.json();
       if (res.ok) {
-        toast.success('Email Verified Successfully');
+        toast.success('Email Verified Successfully', {
+          toastId: 'success',
+        });
         router.replace('/');
       }
       if (!res.ok && error) {

@@ -10,10 +10,9 @@ const Notifications = () => {
       hideProgressBar={false}
       closeOnClick
       pauseOnFocusLoss
-      draggable
       pauseOnHover
+      draggable
       theme="dark"
-      transition="Slide"
     />
   );
 };

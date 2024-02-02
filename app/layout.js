@@ -24,9 +24,9 @@ export default function RootLayout({ children }) {
           <div className="relative ">
             <Header />
             {children}
-            <Notifications />
             <Footer />
           </div>
+          <Notifications />
         </Providers>
       </body>
     </html>

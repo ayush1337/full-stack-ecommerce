@@ -6,6 +6,7 @@ import errorIco from '@/assets/error.svg';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { filterFormikErros } from '@/lib/utils/formikHelper';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -38,6 +39,7 @@ const RegisterForm = () => {
       }).then(async (res) => {
         if (res.ok) {
           const { message } = await res.json();
+          console.log(message);
           toast.success(message);
         }
       });
