@@ -1,10 +1,11 @@
 'use client';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import errorIco from '@/assets/error.svg';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 import { filterFormikErros } from '@/lib/utils/formikHelper';
 import { toast } from 'react-toastify';
 
@@ -33,13 +34,12 @@ const RegisterForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      fetch('/api/auth', {
+      fetch('/api/auth/register', {
         method: 'POST',
         body: JSON.stringify(values),
       }).then(async (res) => {
         if (res.ok) {
           const { message } = await res.json();
-          console.log(message);
           toast.success(message);
         }
       });

@@ -4,6 +4,7 @@ import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
 import Providers from '@/lib/provider';
 import Notifications from '@/components/Notifications';
+import AuthSession from '@/components/auth/AuthSession';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -13,22 +14,24 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={
-          (inter.className, `overflow-x-hidden tracking-wide box-border`)
-        }
-        suppressHydrationWarning={true}
-      >
-        <Providers>
-          <div className="relative ">
-            <Header />
-            {children}
-            <Footer />
-          </div>
-          <Notifications />
-        </Providers>
-      </body>
-    </html>
+    <AuthSession>
+      <html lang="en">
+        <body
+          className={
+            (inter.className, `overflow-x-hidden tracking-wide box-border`)
+          }
+          suppressHydrationWarning={true}
+        >
+          <Providers>
+            <div className="relative ">
+              <Header />
+              {children}
+              <Footer />
+            </div>
+            <Notifications />
+          </Providers>
+        </body>
+      </html>
+    </AuthSession>
   );
 }
