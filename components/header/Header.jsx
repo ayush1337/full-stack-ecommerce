@@ -8,11 +8,14 @@ import zara_logo from '@/assets/zara_logo.svg';
 import menu from '@/assets/menu.svg';
 import close_btn from '@/assets/close_btn.svg';
 import cartIco from '@/assets/cart_ico.svg';
+import useAuth from '@/lib/hooks/useAuth';
+import Spinner from '../Spinner';
 
 const Header = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
   const cart = useSelector((state) => state.cart);
+  const { loading, loggedIn, isAdmin, profile } = useAuth();
 
   useEffect(() => {
     let total = 0;
@@ -23,7 +26,7 @@ const Header = () => {
   }, [cart]);
 
   return (
-    <header className="w-screen md:p-8 p-4 font-light sticky top-0 z-10 tracking-wide ">
+    <header className="w-screen md:p-8 p-4 font-light sticky top-0 z-10 tracking-wide">
       <nav className="w-full flex gap-2 justify-between">
         <div>
           {toggleMenu ? (
@@ -73,9 +76,20 @@ const Header = () => {
           </div>
         </Link>
         <ul className="flex uppercase gap-5 text-sm items-start relative">
-          <li>
-            <Link href="/logon">Log in</Link>
-          </li>
+          {loading ? (
+            <li>
+              <Spinner />
+            </li>
+          ) : !loggedIn ? (
+            <li>
+              <Link href="/logon">Log in</Link>
+            </li>
+          ) : (
+            <li className="uppercase">
+              <Link href="/user/order">Ayush Kumar</Link>
+            </li>
+          )}
+
           <li className="hidden lg:block">Help</li>
           <li>
             <Link href="/cart">

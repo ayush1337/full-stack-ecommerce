@@ -14,14 +14,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <AuthSession>
-      <html lang="en">
-        <body
-          className={
-            (inter.className, `overflow-x-hidden tracking-wide box-border`)
-          }
-          suppressHydrationWarning={true}
-        >
+    <html lang="en">
+      <body
+        className={
+          (inter.className, `overflow-x-hidden tracking-wide box-border`)
+        }
+        suppressHydrationWarning={true}
+      >
+        <AuthSession>
           <Providers>
             <div className="relative ">
               <Header />
@@ -30,8 +30,8 @@ export default function RootLayout({ children }) {
             </div>
             <Notifications />
           </Providers>
-        </body>
-      </html>
-    </AuthSession>
+        </AuthSession>
+      </body>
+    </html>
   );
 }

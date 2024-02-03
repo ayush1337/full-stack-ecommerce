@@ -8,6 +8,8 @@ import errorIco from '@/assets/error.svg';
 
 import { signIn } from 'next-auth/react';
 import { filterFormikErros } from '@/lib/utils/formikHelper';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid Email').required('Email is Requried'),
@@ -16,7 +18,7 @@ const validationSchema = yup.object().shape({
 
 const LogInForm = () => {
   const [formErrors, setFormErrors] = useState([]);
-
+  const router = useRouter();
   const {
     values,
     handleChange,
@@ -32,9 +34,16 @@ const LogInForm = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      await signIn('credentials', {
+      const signInRes = await signIn('credentials', {
         ...values,
+        redirect: false,
       });
+      if (signInRes?.error === 'CredentialsSignin') {
+        toast.error('Email/Password Mismatch');
+      }
+      if (!signInRes?.error) {
+        router.refresh();
+      }
     },
   });
 
@@ -60,7 +69,6 @@ const LogInForm = () => {
             onChange={handleChange}
             value={email}
             onBlur={handleBlur}
-            error={error('email')}
           />
           <label htmlFor="email" className="label">
             Email
@@ -75,7 +83,6 @@ const LogInForm = () => {
             onChange={handleChange}
             value={password}
             onBlur={handleBlur}
-            error={error('password')}
           />
           <label htmlFor="password" className="label">
             Password
