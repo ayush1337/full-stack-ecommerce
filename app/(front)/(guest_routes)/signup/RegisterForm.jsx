@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-
+import { signIn } from 'next-auth/react';
 import errorIco from '@/assets/error.svg';
 
 import { filterFormikErros } from '@/lib/utils/formikHelper';
@@ -33,16 +33,19 @@ const RegisterForm = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      fetch('/api/auth/register', {
+    onSubmit: async (values) => {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         body: JSON.stringify(values),
-      }).then(async (res) => {
-        if (res.ok) {
-          const { message } = await res.json();
-          toast.success(message);
-        }
       });
+      const { message, error } = await res.json();
+      if (res.ok) {
+        toast.success(message);
+      }
+      if (!res.ok && error) {
+        toast.error(error);
+        await signIn('credentials', { email, password });
+      }
     },
   });
 

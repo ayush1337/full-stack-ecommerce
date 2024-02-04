@@ -21,11 +21,11 @@ const page = (props) => {
         toast.success('Email Verified Successfully', {
           toastId: 'success',
         });
-        router.replace('/');
       }
       if (!res.ok && error) {
         toast.error(error);
       }
+      router.replace('/');
     });
   }, []);
   return (
