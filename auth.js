@@ -18,10 +18,33 @@ const authConfig = {
         ).then(async (res) => await res.json());
         if (error) return null;
 
-        return { id: user.id };
+        return { id: user.id, ...user };
       },
     }),
   ],
+  callbacks: {
+    async jwt(params) {
+      if (params.user) {
+        params.token = { ...params.token, ...params.user };
+      }
+      return params.token;
+    },
+    async session(params) {
+      const user = params.token;
+      if (user) {
+        params.session.user = {
+          ...params.session.user,
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          verified: user.verified,
+          role: user.role,
+        };
+      }
+      return params.session;
+    },
+  },
 };
 
 export const {

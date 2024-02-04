@@ -26,6 +26,7 @@ export const POST = async (req) => {
       name: user.name,
       avatar: user.avatar,
       role: user.role,
+      verified: user.verified,
     },
   });
 };
