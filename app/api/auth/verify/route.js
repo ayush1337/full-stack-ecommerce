@@ -2,6 +2,7 @@ import EmailVerificationToken from '@/lib/models/emailVerificationToken';
 import UserModel from '@/lib/models/UserModel';
 import { isValidObjectId } from 'mongoose';
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 // import { sendEmail } from '@/app/lib/email';
 import dbConnect from '@/lib/dbConnect';
@@ -56,6 +57,7 @@ export const GET = async (req) => {
     await dbConnect();
 
     const user = await UserModel.findById(userId);
+
     if (!user)
       return NextResponse.json(
         { error: 'Invalid request, user not found!' },
@@ -67,20 +69,28 @@ export const GET = async (req) => {
         { error: 'Invalid request, user already verified!' },
         { status: 401 }
       );
-
     const token = crypto.randomBytes(36).toString('hex');
+
     await EmailVerificationToken.findOneAndDelete({ user: userId });
     await EmailVerificationToken.create({
       user: userId,
       token,
     });
 
-    const verificationUrl = `${process.env.VERIFICATION_URL}?token=${token}&userId=${userId}`;
+    const transport = nodemailer.createTransport({
+      host: 'sandbox.smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: '282804922bc239',
+        pass: '252b5c13fdbd17',
+      },
+    });
 
-    await sendEmail({
-      profile: { name: user.name, email: user.email },
-      subject: 'verification',
-      linkUrl: verificationUrl,
+    await transport.sendMail({
+      from: 'verification@zaraecom.com',
+      to: user.email,
+      html: `<h1>Please verify your email by clicking on <a href="http://localhost:3000/verify?token=${token}&userId=${user._id}">this link</a></h1>
+    `,
     });
 
     return NextResponse.json({ message: 'Please check your email.' });

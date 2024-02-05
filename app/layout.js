@@ -5,6 +5,7 @@ import Footer from '@/components/footer/Footer';
 import Providers from '@/lib/provider';
 import Notifications from '@/components/Notifications';
 import AuthSession from '@/components/auth/AuthSession';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -12,7 +13,7 @@ export const metadata = {
   description: 'ZARA India | New Collection Online',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body

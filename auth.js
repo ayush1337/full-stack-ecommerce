@@ -42,6 +42,7 @@ const authConfig = {
           role: user.role,
         };
       }
+
       return params.session;
     },
   },

@@ -41,10 +41,10 @@ const RegisterForm = () => {
       const { message, error } = await res.json();
       if (res.ok) {
         toast.success(message);
+        await signIn('credentials', { email, password });
       }
       if (!res.ok && error) {
         toast.error(error);
-        await signIn('credentials', { email, password });
       }
     },
   });
