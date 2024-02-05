@@ -20,6 +20,14 @@
   color: #000;
 }
 
+.form-error input,
+.form-error textarea {
+  @apply w-full outline-none py-2 shadow-none text-black  border-b border-red-400;
+}
+
+.form-error label {
+  @apply absolute top-0 left-0 w-full text-red-400 transition-all duration-200 cursor-text uppercase;
+}
 /* Spinner css */
 
 .lds-dual-ring {
@@ -45,4 +53,8 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.form-error input {
+  @apply w-full outline-none py-2 shadow-none text-black  border-b border-red-400;
 }
