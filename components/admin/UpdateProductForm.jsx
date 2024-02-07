@@ -14,41 +14,45 @@ import {
   createCategory,
   createProduct,
   getAllCategory,
+  updateProduct,
 } from '@/app/(front)/admin/products/action';
 import { capitalizeWords } from '@/lib/utils/capitalizeWords';
 import Spinner from '../Spinner';
 import { toast } from 'react-toastify';
 import AsyncSelect from 'react-select/async';
 import { useRouter } from 'next/navigation';
-const ProductForm = () => {
+const UpdateProductForm = ({ product }) => {
   const [mounted, setMounted] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({
-    value: 'IN',
-    label: '🇮🇳 India',
+    ...product.origin,
   });
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState({
+    value: product.gender,
+    label: product.gender,
+  });
 
   const [stockInfo, setStockInfo] = useState({
-    xs: 0,
-    l: 0,
-    m: 0,
-    xxl: 0,
+    ...product.stock,
   });
 
   const [formErrors, setFormErrors] = useState([]);
 
-  const [color, setColor] = useState('#00000');
-
+  const [color, setColor] = useState(product.color);
+  const [slugVal, setSlugVal] = useState(product.slug);
   const [categoryToggle, setCategoryToggle] = useState(false);
   const [category, setCategory] = useState('');
-  const [selectCategory, setSelectCategory] = useState('');
+  const [selectCategory, setSelectCategory] = useState({
+    ...product.category,
+  });
   const [categoryLoading, setCategoryLoading] = useState(false);
 
   const [image, setImage] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [uploadImage, setUploadImage] = useState('');
+  const [uploadImage, setUploadImage] = useState(product.image);
 
   const [productUpload, setProductUpload] = useState(false);
+
+  const router = useRouter();
 
   const fileField = useRef();
   const slugField = useRef();
@@ -103,11 +107,11 @@ const ProductForm = () => {
     touched,
   } = useFormik({
     initialValues: {
-      productName: '',
-      slug: '',
-      price: 0,
-      brand: 'zara',
-      description: '',
+      productName: product.productName,
+      slug: product.slug,
+      price: product.price,
+      brand: product.brand,
+      description: product.description,
       origin: selectedCountry,
     },
     validate,
@@ -124,20 +128,19 @@ const ProductForm = () => {
           color: !color ? '#000000' : color,
           image: uploadImage,
           category: selectCategory,
-          slug: values.slug.toLowerCase(),
+          slug: slugVal.toLowerCase(),
+          _id: product._id,
         };
-        const res = await createProduct(values);
-
+        const res = await updateProduct(values);
         setProductUpload(() => false);
         toast.success(res.message);
-        setTimeout(() => location.reload(), 2500);
+        router.push('/admin/products');
       } catch (error) {
         toast.error(error.message);
         setProductUpload(() => false);
       }
     },
   });
-
   const sizes = ['xs', 'l', 'm', 'xxl'];
   function generateSlug(e) {
     if (e) {
@@ -154,6 +157,7 @@ const ProductForm = () => {
         : (finalSlug = finalSlug + title)
     );
     slugField.current.value = finalSlug;
+    setSlugVal(() => finalSlug);
   }
   const resolveCategories = (inputValue) => {
     return new Promise(async (resolve) => {
@@ -227,7 +231,7 @@ const ProductForm = () => {
           <div className="flex flex-col gap-4 justify-center items-center bg-white border border-black px-8 py-4">
             <Spinner />
             <h1 className="capitalize tracking-tight text-2xl font-thin">
-              Adding Product....
+              Updating Product....
             </h1>
           </div>
         </div>
@@ -246,6 +250,7 @@ const ProductForm = () => {
             required
             onChange={handleChange}
             onBlur={handleBlur}
+            value={values.productName}
           />
           <label htmlFor="productName" className="label">
             Product Name
@@ -264,8 +269,8 @@ const ProductForm = () => {
             className="input"
             ref={slugField}
             required
-            onChange={handleChange}
-            onBlur={handleBlur}
+            onChange={(e) => setSlugVal(() => e.value)}
+            defaultValue={values.slug}
           />
           <label htmlFor="slug" className="label">
             Product Slug
@@ -288,6 +293,7 @@ const ProductForm = () => {
             required
             onChange={handleChange}
             onBlur={handleBlur}
+            defaultValue={values.price}
           />
           <label htmlFor="price" className="label">
             Product Price
@@ -303,6 +309,7 @@ const ProductForm = () => {
             required
             onChange={handleChange}
             onBlur={handleBlur}
+            defaultValue={values.brand}
           />
           <label htmlFor="brand" className="label">
             Brand Name
@@ -317,6 +324,7 @@ const ProductForm = () => {
             required
             onChange={handleChange}
             onBlur={handleBlur}
+            defaultValue={values.description}
           />
           <label htmlFor="description" className="label">
             Product description
@@ -411,6 +419,7 @@ const ProductForm = () => {
               <AsyncSelect
                 placeholder="Category"
                 loadOptions={resolveCategories}
+                defaultValue={product.category}
                 cacheOptions
                 defaultOptions
                 isSearchable
@@ -482,9 +491,9 @@ const ProductForm = () => {
                 <input
                   type="number"
                   min={0}
-                  defaultValue={0}
                   id={size}
                   name={size}
+                  defaultValue={product.stock[size]}
                   className="border border-gray-200 p-2"
                   onBlur={handleStockInfo}
                 />
@@ -553,7 +562,7 @@ const ProductForm = () => {
             disabled={uploading ? true : false}
             className="bg-black text-white py-2 px-4 uppercase font-normal disabled:cursor-not-allowed disabled:opacity-65"
           >
-            Submit Product
+            Update Product
           </button>
         </div>
       </form>
@@ -580,4 +589,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default UpdateProductForm;

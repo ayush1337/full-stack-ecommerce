@@ -58,3 +58,7 @@
 .form-error input {
   @apply w-full outline-none py-2 shadow-none text-black  border-b border-red-400;
 }
+
+tr > *:not(:first-child) {
+  padding: 16px;
+}

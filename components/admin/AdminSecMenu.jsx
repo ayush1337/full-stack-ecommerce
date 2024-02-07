@@ -35,7 +35,7 @@ const AdminSecMenu = () => {
     },
   ];
   return (
-    <div className="fixed flex gap-10 bottom-8 left-1/2 -translate-x-1/2 bg-white px-6 py-4 rounded-full shadow-md">
+    <div className="fixed flex gap-10 bottom-8 left-1/2 -translate-x-1/2 bg-white px-6 py-4 rounded-full shadow-md z-10">
       {menuItems.map((item) => {
         return (
           <button
