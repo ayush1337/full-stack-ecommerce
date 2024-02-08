@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IoIosSearch } from 'react-icons/io';
 import sorting from '@/assets/error.svg';
 import download from '@/assets/error.svg';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Price from '../Price';
 import { LiaEditSolid } from 'react-icons/lia';
@@ -17,6 +17,7 @@ export default function ProductTable({
   showPageNavigator = true,
 }) {
   const [emptyStock, setEmptyStock] = useState(false);
+  const [query, setQuery] = useState('');
   const router = useRouter();
 
   const handleOnPrevPress = () => {
@@ -32,15 +33,31 @@ export default function ProductTable({
     <div className="flex flex-col w-full items-center gap-6">
       <div className="p-5 w-full bg-white shadow rounded flex flex-col gap-3">
         <div className="flex items-center gap-2 text-sm ">
-          <div className="bg-white flex  items-center gap-2 border-gray-100 border-2 w-fit p-2 rounded-md ">
-            <IoIosSearch />
-            <input
-              type="text"
-              placeholder="Search Products"
-              className="focus:outline-none placeholder:text-sm placeholder:font-light w-20 md:w-fit "
-            />
+          <div className="flex flex-col gap-2">
+            <div className="bg-white flex  items-center gap-2 border-gray-100 border-2 w-fit p-2 rounded-md ">
+              <IoIosSearch />
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!query) return;
+                  router.push(`/admin/products/search?query=${query}`);
+                }}
+                className="w-full"
+              >
+                <input
+                  type="text"
+                  placeholder="Search Products"
+                  name="search"
+                  className="focus:outline-none placeholder:text-sm placeholder:font-light w-20 md:w-fit"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+              </form>
+            </div>
+            <label htmlFor="search" className="text-xs self-center">
+              *press enter to search
+            </label>
           </div>
-
           <div className="cursor-pointer p-2 border-gray-100 border-2 flex gap-1 items-center ml-auto">
             <span>Sort</span>
             <img src={sorting} className="w-4" />

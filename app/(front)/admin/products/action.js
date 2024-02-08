@@ -20,7 +20,6 @@ export const createCategory = async (category) => {
 export const getAllCategory = async (inputValue) => {
   try {
     await dbConnect();
-
     const categories = await CategoryModel.find({
       categoryName: { $regex: inputValue, $options: 'i' },
     });
@@ -79,4 +78,12 @@ export const getSingleProduct = async (productID) => {
   if (!isValidObjectId(productID)) return new Error('Cant find the product');
   const product = await ProductModel.findById(productID);
   return JSON.stringify(product);
+};
+export const getProductsByQuery = async (inputValue) => {
+  await dbConnect();
+  const products = await ProductModel.find({
+    productName: { $regex: inputValue, $options: 'i' },
+  }).sort('-createdAt');
+
+  return JSON.stringify(products);
 };
