@@ -10,6 +10,7 @@ import { LiaEditSolid } from 'react-icons/lia';
 import Spinner from '../Spinner';
 import { toast } from 'react-toastify';
 import { updateProduct } from '@/app/(front)/admin/products/action';
+import Link from 'next/link';
 export default function ProductTable({
   products = [],
   currentPageNo,
@@ -47,14 +48,18 @@ export default function ProductTable({
                 <input
                   type="text"
                   placeholder="Search Products"
-                  name="search"
+                  name="search products"
                   className="focus:outline-none placeholder:text-sm placeholder:font-light w-20 md:w-fit"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  autoComplete="off"
                 />
               </form>
             </div>
-            <label htmlFor="search" className="text-xs self-center">
+            <label
+              htmlFor="search products"
+              className="text-xs self-center opacity-40"
+            >
               *press enter to search
             </label>
           </div>
@@ -117,9 +122,12 @@ export default function ProductTable({
                       ></Image>
                     </td>
                     <td>
-                      <span className="inline-block lg:max-w-80  max-w-56 truncate ">
+                      <Link
+                        href={`/product/${product.slug}/${product._id}`}
+                        className="inline-block underline lg:max-w-80  max-w-56 truncate "
+                      >
                         {product.productName}
-                      </span>
+                      </Link>
                     </td>
                     <td>
                       <Price price={product.price} />

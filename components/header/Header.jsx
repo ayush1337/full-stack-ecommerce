@@ -76,7 +76,7 @@ const Header = () => {
               ></Image>
             </Link>
           </div>
-          <Link href="/">
+          <Link href="/search">
             <div className="bg-white border border-black h-6 min-w-[300px] md:flex items-center p-4 hidden">
               <div className="flex-grow"></div>
               <div className="ml-auto uppercase">Search</div>

@@ -79,6 +79,7 @@ export const getSingleProduct = async (productID) => {
   const product = await ProductModel.findById(productID);
   return JSON.stringify(product);
 };
+
 export const getProductsByQuery = async (inputValue) => {
   await dbConnect();
   const products = await ProductModel.find({

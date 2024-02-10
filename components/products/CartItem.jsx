@@ -23,7 +23,10 @@ const CartItem = ({ product }) => {
 
   useEffect(() => {
     cart.products.forEach((cartProduct) => {
-      if (cartProduct.id === product.id && cartProduct.size === product.size) {
+      if (
+        cartProduct._id === product._id &&
+        cartProduct.size === product.size
+      ) {
         setQuantity(() => cartProduct.quantity);
       }
     });
@@ -34,11 +37,11 @@ const CartItem = ({ product }) => {
   };
 
   const handleProductDecrease = () => {
-    dispatch(remove({ id: product.id, size: product.size }));
+    dispatch(remove({ _id: product._id, size: product.size }));
   };
 
   const handleProductDelete = () => {
-    dispatch(deleteItem({ id: product.id, size: product.size }));
+    dispatch(deleteItem({ _id: product._id, size: product.size }));
   };
 
   if (!mount) return <></>;
@@ -56,10 +59,10 @@ const CartItem = ({ product }) => {
         ></Image>
       </button>
       <figure className="border border-black">
-        <Link href={`/product/${product.slug}/${product.id}`}>
+        <Link href={`/product/${product.slug}/${product._id}`}>
           <Image
             src={product.image}
-            alt={product.name}
+            alt={product.productName}
             width={300}
             height={100}
             priority={true}
@@ -70,9 +73,9 @@ const CartItem = ({ product }) => {
       </figure>
       <div className="font-extralight text-xs flex flex-col gap-1 border border-black border-t-0 p-2">
         <div className="flex justify-between  items-center">
-          <Link href={`/product/${product.slug}/${product.id}`}>
+          <Link href={`/product/${product.slug}/${product._id}`}>
             <h2 className="hover:underline font-normal max-w-[100px] truncate">
-              {product.name}
+              {product.productName}
             </h2>
           </Link>
           <span>BLACK | (2110 / 775)</span>

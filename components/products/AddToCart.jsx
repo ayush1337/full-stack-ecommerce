@@ -23,7 +23,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
   useEffect(() => {
     let notFound = true;
     cart.products.forEach((cartProduct) => {
-      if (cartProduct.id === product.id && cartProduct.size === selectSize) {
+      if (cartProduct._id === product._id && cartProduct.size === selectSize) {
         setQuantity(() => cartProduct.quantity);
         notFound = false;
       }
@@ -36,7 +36,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
   };
 
   const handleProductDecrease = () => {
-    dispatch(remove({ id: product.id, size: selectSize }));
+    dispatch(remove({ _id: product._id, size: selectSize }));
   };
 
   if (!mount) return <></>;
@@ -47,7 +47,15 @@ const AddToCart = ({ product, sizeBorder = false }) => {
           sizeBorder ? 'border border-black border-b-0' : ''
         } p-6 flex flex-col gap-4`}
       >
-        <span className="text-xs">{`BLACK | (2110 / 775)`}</span>
+        <div className="flex gap-4">
+          <span
+            className="w-[40px] h-[20px] border border-black"
+            style={{
+              background: `${product.color}`,
+            }}
+          ></span>
+          <span className="text-xs">{` | (2110 / 775)`}</span>
+        </div>
 
         {/* WRANING TEXT START */}
 
