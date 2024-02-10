@@ -31,3 +31,12 @@ export const getProductsByQuery = async (inputValue) => {
 
   return JSON.stringify(products);
 };
+
+export const getProductsFilter = async (inputValue) => {
+  await dbConnect();
+  const products = await ProductModel.find({
+    productName: { $regex: inputValue, $options: 'i' },
+  }).sort('-createdAt');
+
+  return JSON.stringify(products);
+};

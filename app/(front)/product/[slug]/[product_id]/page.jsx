@@ -27,7 +27,7 @@ const ProductDetails = async ({ params }) => {
           src={product.image}
           width={1000}
           height={750}
-          alt={product.name}
+          alt={product.productName}
           priority={true}
         ></Image>
         {/* Product Image Engs   */}
