@@ -23,20 +23,69 @@ export const getProducts = async (pageNo, perPage) => {
   return JSON.stringify(products);
 };
 
-export const getProductsByQuery = async (inputValue) => {
+export const getProductsByQuery = async (
+  searchQuery,
+  gender = 'all',
+  categoryArray = [],
+  sizeArray = [],
+  sortObject = {
+    createdAt: -1,
+  }
+) => {
   await dbConnect();
-  const products = await ProductModel.find({
-    productName: { $regex: inputValue, $options: 'i' },
-  }).sort('-createdAt');
+
+  let query = {};
+
+  if (searchQuery) {
+    query.productName = { $regex: searchQuery, $options: 'i' };
+  }
+
+  if (categoryArray.length > 0) {
+    query['category.label'] = { $in: categoryArray };
+  }
+
+  if (sizeArray.length > 0) {
+    query.sizes = { $in: sizeArray };
+  }
+
+  if (gender === 'man') {
+    query.gender = 'Male';
+  }
+
+  if (gender === 'woman') {
+    query.gender = 'Female';
+  }
+
+  const products = await ProductModel.find(query).sort(sortObject);
 
   return JSON.stringify(products);
 };
 
-export const getProductsFilter = async (inputValue) => {
+export const getProductsFilter = async (
+  gender = 'all',
+  categoryArray = [],
+  sizeArray = [],
+  sortObject = {
+    createdAt: -1,
+  }
+) => {
   await dbConnect();
-  const products = await ProductModel.find({
-    productName: { $regex: inputValue, $options: 'i' },
-  }).sort('-createdAt');
 
+  let query = {};
+
+  if (categoryArray.length > 0) {
+    query['category.label'] = { $in: categoryArray };
+  }
+  if (sizeArray.length > 0) {
+    query.sizes = { $in: sizeArray };
+  }
+  if (gender === 'man') {
+    query.gender = 'Male';
+  }
+  if (gender === 'woman') {
+    query.gender = 'Female';
+  }
+
+  const products = await ProductModel.find(query).sort(sortObject);
   return JSON.stringify(products);
 };

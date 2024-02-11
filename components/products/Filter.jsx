@@ -9,11 +9,13 @@ import { sortOptions, sizeOptions } from '@/lib/utils/filters';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Filter() {
+export default function Filter({ urlPath }) {
   const [mount, setMount] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [sizeFilter, setSizeFilter] = useState([]);
   const [sortFilter, setSortFilter] = useState({});
+  const [manSelected, setManSelected] = useState(false);
+  const [womanSelected, setWomanSelected] = useState(false);
   const router = useRouter();
 
   function isEmpty(obj) {
@@ -25,14 +27,37 @@ export default function Filter() {
   }, []);
 
   useEffect(() => {
-    if (categoryFilter.length || sizeFilter.length || !isEmpty(sortFilter)) {
+    if (
+      categoryFilter.length ||
+      sizeFilter.length ||
+      !isEmpty(sortFilter) ||
+      manSelected ||
+      womanSelected
+    ) {
       let query = '?';
+      let genderFound = false;
       let categoryFound = false;
       let sizeFound = false;
 
+      if (manSelected || womanSelected) {
+        genderFound = true;
+        query += 'gender=';
+
+        if (manSelected && womanSelected) {
+          query += 'all';
+        } else if (manSelected && !womanSelected) {
+          query += 'man';
+        } else {
+          query += 'woman';
+        }
+      }
       if (categoryFilter.length) {
         categoryFound = true;
-        query += 'category=';
+        if (genderFound) {
+          query += '&category=';
+        } else {
+          query += 'category=';
+        }
         categoryFilter.forEach((category, i) => {
           if (i) query += ',';
           query += category.label;
@@ -41,18 +66,18 @@ export default function Filter() {
 
       if (sizeFilter.length) {
         sizeFound = true;
-        if (categoryFound) {
+        if (categoryFound || genderFound) {
           query += '&size=';
         } else {
           query += 'size=';
         }
         sizeFilter.forEach((size, i) => {
           if (i) query += ',';
-          query += size.label;
+          query += size.value;
         });
       }
       if (!isEmpty(sortFilter)) {
-        if (categoryFound || sizeFound) {
+        if (categoryFound || sizeFound || genderFound) {
           query += '&sort=';
         } else {
           query += 'sort=';
@@ -61,9 +86,9 @@ export default function Filter() {
       }
       router.push(query);
     } else {
-      router.push('/');
+      router.push(urlPath);
     }
-  }, [categoryFilter, sizeFilter, sortFilter]);
+  }, [categoryFilter, sizeFilter, sortFilter, manSelected, womanSelected]);
 
   const handleCategorySelect = (selectedOption) => {
     setCategoryFilter(() => selectedOption);
@@ -92,9 +117,29 @@ export default function Filter() {
 
   if (!mount) <></>;
   return (
-    <div className="flex lg:items-center items-start gap-6 flex-col lg:flex-row lg:text-base text-sm">
-      <button className="border border-black px-4 py-1 uppercase">Man</button>
-      <button className="border border-black px-4 py-1 uppercase">Woman</button>
+    <div className="flex lg:items-center items-start gap-6 flex-col lg:flex-row lg:text-base text-sm tracking-tighter">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setManSelected((p) => !p);
+        }}
+        className={`border border-black px-4 py-1 uppercase ${
+          manSelected ? 'opacity-100' : 'opacity-50'
+        }`}
+      >
+        Man
+      </button>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setWomanSelected((p) => !p);
+        }}
+        className={`border border-black px-4 py-1 uppercase ${
+          womanSelected ? 'opacity-100' : 'opacity-50'
+        }`}
+      >
+        Woman
+      </button>
       <AsyncSelect
         placeholder="CATEGORY"
         cacheOptions
