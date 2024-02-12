@@ -9,11 +9,13 @@ export const createCart = async ({
   size,
   isPositive,
   deleteItem,
+  product,
 }) => {
   try {
     await dbConnect();
 
     let cart = await CartModel.findOne({ userId });
+
     if (!cart) cart = await CartModel.create({ userId, products: [] });
     const existingProductIndex = cart.products.findIndex(
       (product) =>
@@ -27,7 +29,9 @@ export const createCart = async ({
     if (existingProductIndex !== -1) {
       // If the product already exists, increment its quantity
       if (isPositive) {
-        cart.products[existingProductIndex].quantity += 1;
+        const currentQuantity = cart.products[existingProductIndex].quantity;
+        if (currentQuantity < product.stock[size])
+          cart.products[existingProductIndex].quantity += 1;
       } else {
         cart.products[existingProductIndex].quantity -= 1;
         if (cart.products[existingProductIndex].quantity === 0) {

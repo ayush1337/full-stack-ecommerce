@@ -43,6 +43,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
         productId: product._id,
         size: selectSize,
         isPositive: true,
+        product,
       });
       dispatch(add({ ...product, size: selectSize }));
     } catch (error) {

@@ -42,6 +42,7 @@ const CartItem = ({ product }) => {
         productId: product._id,
         size: product.size,
         isPositive: true,
+        product,
       });
       dispatch(add({ ...product, size: product.size }));
     } catch (error) {
