@@ -11,7 +11,6 @@ import Image from 'next/image';
 import cartEmpty from '@/assets/empty_cart.svg';
 
 export default function CartProducts() {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const cart = useSelector((state) => state.cart);
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function CartProducts() {
         <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-4 place-items-center gap-6 w-full">
           {cart.products.map((product) => {
             return (
-              <CartItem key={product.id + product.size} product={product} />
+              <CartItem key={product._id + product.size} product={product} />
             );
           })}
         </div>

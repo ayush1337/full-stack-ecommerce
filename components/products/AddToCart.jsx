@@ -7,6 +7,10 @@ import { add, remove } from '@/lib/features/cartSlice';
 
 import addIco from '@/assets/add.svg';
 import subIco from '@/assets/sub.svg';
+import { toast } from 'react-toastify';
+import useAuth from '@/lib/hooks/useAuth';
+import { createCart } from './actions';
+import { useRouter } from 'next/navigation';
 
 const AddToCart = ({ product, sizeBorder = false }) => {
   const [mount, setMount] = useState(false);
@@ -15,7 +19,8 @@ const AddToCart = ({ product, sizeBorder = false }) => {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-
+  const { profile, loggedIn } = useAuth();
+  const router = useRouter();
   useEffect(() => {
     setMount(() => true);
   }, []);
@@ -31,12 +36,32 @@ const AddToCart = ({ product, sizeBorder = false }) => {
     if (notFound) setQuantity(() => 0);
   }, [selectSize, cart]);
 
-  const handleProductIncrease = () => {
-    dispatch(add({ ...product, size: selectSize }));
+  const handleProductIncrease = async () => {
+    try {
+      await createCart({
+        userId: profile.id,
+        productId: product._id,
+        size: selectSize,
+        isPositive: true,
+      });
+      dispatch(add({ ...product, size: selectSize }));
+    } catch (error) {
+      toast.error('Failed to Add to cart');
+    }
   };
 
-  const handleProductDecrease = () => {
-    dispatch(remove({ _id: product._id, size: selectSize }));
+  const handleProductDecrease = async () => {
+    try {
+      await createCart({
+        userId: profile.id,
+        productId: product._id,
+        size: selectSize,
+        isPositive: false,
+      });
+      dispatch(remove({ _id: product._id, size: selectSize }));
+    } catch (error) {
+      toast.error('Failed to Add to cart');
+    }
   };
 
   if (!mount) return <></>;
@@ -95,18 +120,28 @@ const AddToCart = ({ product, sizeBorder = false }) => {
       {/* ADD TO CART BUTTON */}
       {quantity === 0 && (
         <button
-          onClick={() => {
-            if (selectSize === '') {
-              setNoSize(() => true);
-            }
-            if (selectSize !== '') {
-              dispatch(
-                add({
-                  ...product,
-                  quantity: 1,
+          onClick={async () => {
+            try {
+              if (!loggedIn) router.push('/logon');
+              if (selectSize === '') {
+                setNoSize(() => true);
+              }
+              if (selectSize !== '') {
+                await createCart({
+                  userId: profile.id,
+                  productId: product._id,
                   size: selectSize,
-                })
-              );
+                });
+                dispatch(
+                  add({
+                    ...product,
+                    quantity: 1,
+                    size: selectSize,
+                  })
+                );
+              }
+            } catch (error) {
+              toast.error('Failed to Add to cart');
             }
           }}
           className={`py-4 border border-black uppercase flex items-center justify-center font-normal hover:text-gray-400  ${

@@ -9,11 +9,14 @@ import { add, remove, deleteItem, empty } from '@/lib/features/cartSlice';
 import addIco from '@/assets/add.svg';
 import subIco from '@/assets/sub.svg';
 import trashIco from '@/assets/dustbin.svg';
+import { toast } from 'react-toastify';
+import { createCart } from './actions';
+import useAuth from '@/lib/hooks/useAuth';
 
 const CartItem = ({ product }) => {
   const [mount, setMount] = useState(false);
   const [quantity, setQuantity] = useState(0);
-
+  const { profile } = useAuth();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
@@ -32,16 +35,47 @@ const CartItem = ({ product }) => {
     });
   }, [cart]);
 
-  const handleProductIncrease = () => {
-    dispatch(add({ ...product, size: product.size }));
+  const handleProductIncrease = async () => {
+    try {
+      await createCart({
+        userId: profile.id,
+        productId: product._id,
+        size: product.size,
+        isPositive: true,
+      });
+      dispatch(add({ ...product, size: product.size }));
+    } catch (error) {
+      toast.error(' Failed to Add to cart');
+    }
   };
 
-  const handleProductDecrease = () => {
-    dispatch(remove({ _id: product._id, size: product.size }));
-  };
+  const handleProductDecrease = async () => {
+    try {
+      await createCart({
+        userId: profile.id,
+        productId: product._id,
+        size: product.size,
+        isPositive: false,
+      });
 
-  const handleProductDelete = () => {
-    dispatch(deleteItem({ _id: product._id, size: product.size }));
+      dispatch(remove({ _id: product._id, size: product.size }));
+    } catch (error) {
+      toast.error('Failed to remove from cart');
+    }
+  };
+  const handleProductDelete = async () => {
+    try {
+      await createCart({
+        userId: profile.id,
+        productId: product._id,
+        size: product.size,
+        deleteItem: true,
+      });
+      dispatch(deleteItem({ _id: product._id, size: product.size }));
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to delete product');
+    }
   };
 
   if (!mount) return <></>;

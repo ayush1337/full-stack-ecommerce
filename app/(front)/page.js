@@ -9,7 +9,7 @@ export default async function Home({ searchParams }) {
       if (obj === null) return true;
       return Object.entries(obj).length === 0;
     }
-
+    // const dispatch = useDispatch();
     if (!isEmpty(searchParams)) {
       const { gender, size, category, sort } = searchParams;
       let sizeArray = [];
@@ -40,6 +40,7 @@ export default async function Home({ searchParams }) {
           };
           break;
       }
+
       products = JSON.parse(
         await getProductsFilter(gender, categoryArray, sizeArray, sortObject)
       );

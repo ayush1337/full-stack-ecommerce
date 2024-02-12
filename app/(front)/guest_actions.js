@@ -87,5 +87,6 @@ export const getProductsFilter = async (
   }
 
   const products = await ProductModel.find(query).sort(sortObject);
+
   return JSON.stringify(products);
 };
