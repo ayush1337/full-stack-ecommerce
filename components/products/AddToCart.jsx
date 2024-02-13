@@ -95,25 +95,26 @@ const AddToCart = ({ product, sizeBorder = false }) => {
         {/* WRANING TEXT END */}
 
         <div className="grid grid-cols-2 gap-4">
-          {product?.sizes?.map((size) => {
-            return (
-              <button
-                key={size}
-                className={`uppercase border border-black font-extralight p-2 hover:bg-gray-200 hover:text-black ${
-                  selectSize === size
-                    ? 'bg-black text-white font-normal hover:bg-black hover:text-white'
-                    : 'bg-white'
-                }`}
-                onClick={() => {
-                  setNoSize(() => false);
-                  setSelectSize((p) => {
-                    return p === size ? '' : size;
-                  });
-                }}
-              >
-                {size}
-              </button>
-            );
+          {Object.entries(product.stock).map(([key, value]) => {
+            if (value > 0)
+              return (
+                <button
+                  key={key}
+                  className={`uppercase border border-black font-extralight p-2 hover:bg-gray-200 hover:text-black ${
+                    selectSize === key
+                      ? 'bg-black text-white font-normal hover:bg-black hover:text-white'
+                      : 'bg-white'
+                  }`}
+                  onClick={() => {
+                    setNoSize(() => false);
+                    setSelectSize((p) => {
+                      return p === key ? '' : key;
+                    });
+                  }}
+                >
+                  {key}
+                </button>
+              );
           })}
         </div>
       </div>
