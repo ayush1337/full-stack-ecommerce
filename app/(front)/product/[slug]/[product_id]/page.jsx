@@ -8,7 +8,7 @@ const ProductDetails = async ({ params }) => {
     const product = JSON.parse(await getSingleProduct(params.product_id));
     return (
       // <div>{product.productName}</div>
-      <div className="mx-auto w-full grid lg:grid-cols-3 grid-flow-dense gap-6 lg:px-24 px-2 text-xs md:text-base font-thin">
+      <div className="mx-auto w-full grid lg:grid-cols-3 grid-flow-dense gap-6 lg:px-24 px-2 text-xs md:text-base font-thin ">
         {/* Composition, Care & Origin starts   */}
         <div className="flex flex-col gap-8 md:row-start-1 row-start-3 border border-black self-center p-4 text-xs font-light">
           <h3>COMPOSITION, CARE & ORIGIN</h3>
@@ -37,7 +37,7 @@ const ProductDetails = async ({ params }) => {
         <div className="flex flex-col self-start text-sm">
           <div className="border border-black border-b-0 p-6 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1>{product.name}</h1>
+              <h1>{product.productName}</h1>
               <span>
                 {new Intl.NumberFormat('en-IN', {
                   style: 'currency',

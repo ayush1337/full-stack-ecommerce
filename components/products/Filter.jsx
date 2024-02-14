@@ -6,7 +6,7 @@ import AsyncSelect from 'react-select/async';
 import { getAllCategory } from '@/app/(front)/admin/products/action';
 
 import { sortOptions, sizeOptions } from '@/lib/utils/filters';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Filter({ urlPath }) {
@@ -17,7 +17,7 @@ export default function Filter({ urlPath }) {
   const [manSelected, setManSelected] = useState(false);
   const [womanSelected, setWomanSelected] = useState(false);
   const router = useRouter();
-
+  const [isPending, startTransition] = useTransition();
   function isEmpty(obj) {
     if (obj === null) return true;
     return Object.entries(obj).length === 0;

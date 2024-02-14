@@ -1,12 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const CartDetails = () => {
+  const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const { cartID } = cart;
+  console.log(cartID);
   const [price, setPrice] = useState(0);
   useEffect(() => {
     let totalPrice = 0;
@@ -17,6 +20,7 @@ const CartDetails = () => {
   }, [cart]);
   const handleCheckout = async () => {
     try {
+      router.refresh();
       const res = await fetch('/api/checkout', {
         method: 'POST',
         body: JSON.stringify({ cartID }),

@@ -1,22 +1,36 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleMenu } from '@/lib/features/menuSlice';
 import zara_logo from '@/assets/zara_logo.svg';
 import menu from '@/assets/menu.svg';
 import close_btn from '@/assets/close_btn.svg';
 import cartIco from '@/assets/cart_ico.svg';
 import useAuth from '@/lib/hooks/useAuth';
 import Spinner from '../Spinner';
+import OutsideClickHandler from '../OutsideClickHandler';
 
 const Header = () => {
-  const [toggleMenu, setToggleMenu] = useState(true);
   const [totalProducts, setTotalProducts] = useState(0);
-  const cart = useSelector((state) => state.cart);
-  const { loading, loggedIn, isAdmin, profile } = useAuth();
+  const [categories, setCategories] = useState([]);
 
+  const cart = useSelector((state) => state.cart);
+  const { menuOpen } = useSelector((state) => state.menu);
+  const dispatch = useDispatch();
+
+  const { loading, loggedIn, isAdmin, profile } = useAuth();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let res = await fetch('/api/category');
+        res = await res.json();
+        setCategories(() => res);
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
     let total = 0;
     cart.products.forEach((product) => {
@@ -27,57 +41,102 @@ const Header = () => {
 
   return (
     <>
-      {/* {!isAdmin ? (
-      <></>
-      ) : (
-        <></>
-      )} */}
-
-      <header className="w-screen md:p-8 p-4 font-light sticky top-0 z-10 tracking-wide">
+      <header
+        className={` md:p-8 p-4 font-light fixed  top-0 z-10 tracking-wide bg-white bg-opacity-85 w-full`}
+      >
         <nav className="w-full flex gap-2 justify-between">
           <div>
-            {toggleMenu ? (
-              <button onClick={() => setToggleMenu((p) => !p)}>
-                <Image
-                  alt="open button"
-                  src={menu}
-                  width={25}
-                  height={25}
-                ></Image>
-              </button>
-            ) : (
-              <button onClick={() => setToggleMenu((p) => !p)}>
-                <Image
-                  alt="close button"
-                  src={close_btn}
-                  width={25}
-                  height={25}
-                ></Image>
-              </button>
-            )}
+            <button
+              onClick={() => {
+                dispatch(toggleMenu(true));
+              }}
+              className={`${!menuOpen ? 'inline-block' : 'hidden'}`}
+            >
+              <Image
+                alt="open button"
+                src={menu}
+                width={25}
+                height={25}
+              ></Image>
+            </button>
+            <button
+              onClick={() => {
+                dispatch(toggleMenu(false));
+              }}
+              className={`${menuOpen ? 'inline-block' : 'hidden'}`}
+            >
+              <Image
+                alt="close button"
+                src={close_btn}
+                width={25}
+                height={25}
+              ></Image>
+            </button>
           </div>
-          <div>
-            <Link href="/" className="hidden md:block">
-              <Image
-                src={zara_logo}
-                width={350}
-                height={350}
-                priority={true}
-                alt="zara logo"
-              ></Image>
-            </Link>
-            <Link href="/" className="md:hidden">
-              <Image
-                src={zara_logo}
-                width={100}
-                height={100}
-                priority={true}
-                alt="zara logo"
-              ></Image>
-            </Link>
+          <div className="lg:relative flex flex-col items-center lg:w-[500px] p-4">
+            <div className="">
+              <Link href="/" className="hidden md:block">
+                <Image
+                  src={zara_logo}
+                  width={350}
+                  height={350}
+                  priority={true}
+                  alt="zara logo"
+                ></Image>
+              </Link>
+              <Link href="/" className="md:hidden">
+                <Image
+                  src={zara_logo}
+                  width={100}
+                  height={100}
+                  priority={true}
+                  alt="zara logo"
+                ></Image>
+              </Link>
+            </div>
+            <OutsideClickHandler
+              outsideClickHandler={() => {
+                dispatch(toggleMenu(false));
+              }}
+            >
+              <div
+                className={`${
+                  !menuOpen && 'hidden'
+                } absolute top-0 left-0 -z-10 h-screen lg:h-fit pt-64 p-4 w-full pb-64 bg-white border border-black flex flex-col gap-6 `}
+              >
+                <Link href="/search">
+                  <div className="bg-white border border-black h-6 min-w-[300px] flex lg:hidden items-center p-4 ">
+                    <div className="flex-grow"></div>
+                    <div className="ml-auto uppercase">Search</div>
+                  </div>
+                </Link>
+
+                <h1 className="uppercase font-extralight text-xl">
+                  Categories
+                </h1>
+                <div className="flex flex-wrap gap-4 overflow-y-scroll ">
+                  {categories.map((category) => {
+                    return (
+                      <Link
+                        href={`/category/${category.categoryName}/${category._id}`}
+                        key={category._id}
+                        className="uppercase border border-black px-2"
+                        onClick={() => {
+                          if (menuOpen) {
+                            dispatch(toggleMenu(false));
+                          }
+                        }}
+                      >
+                        {category.categoryName}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </OutsideClickHandler>
           </div>
           <Link href="/search">
-            <div className="bg-white border border-black h-6 min-w-[300px] md:flex items-center p-4 hidden">
+            <div className="bg-white border border-black h-6 min-w-[300px] lg:flex items-center p-4 hidden">
               <div className="flex-grow"></div>
               <div className="ml-auto uppercase">Search</div>
             </div>
@@ -93,7 +152,7 @@ const Header = () => {
               </li>
             ) : (
               <li className="uppercase">
-                <Link href="/user/order">Ayush Kumar</Link>
+                <Link href="/user/order">{profile.name}</Link>
               </li>
             )}
 

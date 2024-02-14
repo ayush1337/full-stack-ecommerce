@@ -19,7 +19,6 @@ import { capitalizeWords } from '@/lib/utils/capitalizeWords';
 import Spinner from '../Spinner';
 import { toast } from 'react-toastify';
 import AsyncSelect from 'react-select/async';
-import { useRouter } from 'next/navigation';
 const ProductForm = () => {
   const [mounted, setMounted] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({
@@ -72,14 +71,6 @@ const ProductForm = () => {
     return flag;
   }
 
-  function sizeAvailable() {
-    const sizes = [];
-    for (const [key, value] of Object.entries(stockInfo)) {
-      if (value > 0) sizes.push(key);
-    }
-    return sizes;
-  }
-
   const validate = (values) => {
     const errors = {};
     if (!values.productName) errors.productName = 'Please enter product name.';
@@ -119,7 +110,6 @@ const ProductForm = () => {
           ...values,
           gender: gender?.value,
           stock: stockInfo,
-          sizes: sizeAvailable(),
           origin: selectedCountry,
           color: !color ? '#000000' : color,
           image: uploadImage,

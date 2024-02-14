@@ -5,6 +5,7 @@ import Footer from '@/components/footer/Footer';
 import Providers from '@/lib/provider';
 import Notifications from '@/components/Notifications';
 import AuthSession from '@/components/auth/AuthSession';
+import Bodywrapper from '@/components/Bodywrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,17 +19,17 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body
         className={
-          (inter.className, `overflow-x-hidden tracking-wide box-border`)
+          (inter.className, `overflow-x-hidden tracking-wide box-border `)
         }
         suppressHydrationWarning={true}
       >
         <AuthSession>
           <Providers>
-            <div className="relative ">
+            <Bodywrapper>
               <Header />
               {children}
               <Footer />
-            </div>
+            </Bodywrapper>
             <Notifications />
           </Providers>
         </AuthSession>
