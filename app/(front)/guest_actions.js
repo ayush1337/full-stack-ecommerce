@@ -23,15 +23,13 @@ export const getProducts = async (pageNo, perPage) => {
   return JSON.stringify(products);
 };
 
-export const getProductsByQuery = async (
+export const getProductsByQuery = async ({
   searchQuery,
-  gender = 'all',
-  categoryArray = [],
-  sizeArray = [],
-  sortObject = {
-    createdAt: -1,
-  }
-) => {
+  gender,
+  categoryArray,
+  sizeArray,
+  sortObject,
+}) => {
   await dbConnect();
 
   let query = {};
