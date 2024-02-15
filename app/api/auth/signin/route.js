@@ -3,6 +3,7 @@ import UserModel from '@/lib/models/UserModel';
 import { NextResponse } from 'next/server';
 
 export const POST = async (req) => {
+  await dbConnect();
   const { email, password } = await req.json();
   if (!email || !password)
     return NextResponse.json({
