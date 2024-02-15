@@ -9,13 +9,12 @@ const authConfig = {
       async authorize(credentials) {
         const { email, password } = credentials;
         //send req to api route
-        const { user, error } = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/auth/signin`,
-          {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-          }
-        ).then(async (res) => await res.json());
+
+        const { data } = await axios.post(
+          `${process.env.BASEURL}/api/auth/signin`,
+          { email, password }
+        );
+        const { user } = data;
         if (error) return null;
 
         return { id: user.id, ...user };

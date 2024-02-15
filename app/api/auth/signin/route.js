@@ -9,7 +9,7 @@ export const POST = async (req) => {
     return NextResponse.json({
       error: 'Invalid request, email or password is missing!',
     });
-  await dbConnect();
+
   const user = await UserModel.findOne({ email });
   if (!user)
     return NextResponse.json({
