@@ -1,3 +1,4 @@
+import SkeletonLoading from '@/components/SkeletonLoading';
 import { getProductsFilter } from './guest_actions';
 import Filter from '@/components/products/Filter';
 import Products from '@/components/products/Products';
@@ -52,6 +53,7 @@ export default async function Home({ searchParams }) {
     else hasMore = true;
     return (
       <div className="lg:p-36 p-4 flex flex-col gap-12 w-full">
+        <SkeletonLoading />
         <Filter urlPath="/" />
         <Products products={products} hasMore={hasMore} currentPageNo={page} />
       </div>

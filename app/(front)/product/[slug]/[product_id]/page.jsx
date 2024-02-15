@@ -40,8 +40,8 @@ const ProductDetails = async ({ params }) => {
         <div className="flex flex-col self-start text-sm">
           <div className="border border-black border-b-0 p-6 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1>{product.productName}</h1>
-              <span>
+              <h1 className="font-medium">{product.productName}</h1>
+              <span className="font-medium">
                 {new Intl.NumberFormat('en-IN', {
                   style: 'currency',
                   currency: 'INR',

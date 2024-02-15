@@ -18,7 +18,7 @@ const ProductItem = ({ product }) => {
       </figure>
       <div className="font-extralight text-xs flex flex-col gap-1">
         <Link href={`/product/${product.slug}/${product._id}`}>
-          <h2 className="hover:underline">{product.productName}</h2>
+          <h2 className="hover:underline font-medium">{product.productName}</h2>
         </Link>
         <span className="text-xs">
           {new Intl.NumberFormat('en-IN', {
