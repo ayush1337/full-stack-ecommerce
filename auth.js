@@ -16,7 +16,7 @@ const authConfig = {
           { email, password }
         );
         const { user } = data;
-        if (error) return null;
+        // if (error) return null;
 
         return { id: user.id, ...user };
       },
