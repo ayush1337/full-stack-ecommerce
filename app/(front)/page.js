@@ -53,7 +53,6 @@ export default async function Home({ searchParams }) {
     else hasMore = true;
     return (
       <div className="lg:p-36 p-4 flex flex-col gap-12 w-full">
-        <SkeletonLoading />
         <Filter urlPath="/" />
         <Products products={products} hasMore={hasMore} currentPageNo={page} />
       </div>
