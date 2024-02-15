@@ -29,7 +29,6 @@ export const POST = async (req) => {
         { status: 401 }
       );
     let cart = await CartModel.findById(cartID).populate('products.productId');
-
     if (!cart)
       return NextResponse.json(
         {

@@ -29,6 +29,7 @@ export const POST = async (req) => {
       }
     );
   }
+
   if (event.type === 'checkout.session.completed') {
     const stripeSession = event.data.object;
     const customer = await stripe.customers.retrieve(stripeSession.customer);
@@ -56,6 +57,7 @@ export const POST = async (req) => {
           quantity,
         };
       });
+
       await OrderModel.create({
         userId,
         stripeCustomerId: stripeSession.customer,

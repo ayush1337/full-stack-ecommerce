@@ -61,14 +61,15 @@ export const getProductsByQuery = async (
   return JSON.stringify(products);
 };
 
-export const getProductsFilter = async (
-  gender = 'all',
-  categoryArray = [],
-  sizeArray = [],
-  sortObject = {
-    createdAt: -1,
-  }
-) => {
+export const getProductsFilter = async ({
+  pageNo,
+  perPage,
+  gender,
+  categoryArray,
+  sizeArray,
+  sortObject,
+}) => {
+  const skipCount = (pageNo - 1) * perPage;
   await dbConnect();
 
   let query = {};
@@ -86,7 +87,10 @@ export const getProductsFilter = async (
     query.gender = 'Female';
   }
 
-  const products = await ProductModel.find(query).sort(sortObject);
+  const products = await ProductModel.find(query)
+    .sort(sortObject)
+    .skip(skipCount)
+    .limit(perPage);
 
   return JSON.stringify(products);
 };

@@ -1,64 +1,63 @@
-import ProductItem from '@/components/products/ProductItem';
-import { getProducts, getProductsFilter } from './guest_actions';
+import { getProductsFilter } from './guest_actions';
 import Filter from '@/components/products/Filter';
+import Products from '@/components/products/Products';
 
 export default async function Home({ searchParams }) {
   try {
-    let products;
-    function isEmpty(obj) {
-      if (obj === null) return true;
-      return Object.entries(obj).length === 0;
-    }
-    // const dispatch = useDispatch();
-    if (!isEmpty(searchParams)) {
-      const { gender, size, category, sort } = searchParams;
-      let sizeArray = [];
-      let categoryArray = [];
-      let sortObject = {};
-      if (size) {
-        sizeArray = size.split(',');
-      }
-      if (category) {
-        categoryArray = category.split(',');
-      }
-      switch (sort) {
-        case 'price_asc':
-          sortObject = { price: 1 };
-          break;
-        case 'price_dsc':
-          sortObject = { price: -1 };
-          break;
-        case 'product_asc':
-          sortObject = { productName: 1 };
-          break;
-        case 'product_dsc':
-          sortObject = { productName: -1 };
-          break;
-        default:
-          sortObject = {
-            createdAt: -1,
-          };
-          break;
-      }
+    const PRODUCTS_PER_PAGE = 4;
 
-      products = JSON.parse(
-        await getProductsFilter(gender, categoryArray, sizeArray, sortObject)
-      );
-    } else {
-      products = JSON.parse(await getProducts());
-    }
+    const { page = 1, gender, size, category, sort } = searchParams;
+    if (isNaN(+page)) return redirect('/404');
 
+    let sizeArray = [];
+    let categoryArray = [];
+    let sortObject = {};
+    if (size) {
+      sizeArray = size.split(',');
+    }
+    if (category) {
+      categoryArray = category.split(',');
+    }
+    switch (sort) {
+      case 'price_asc':
+        sortObject = { price: 1 };
+        break;
+      case 'price_dsc':
+        sortObject = { price: -1 };
+        break;
+      case 'product_asc':
+        sortObject = { productName: 1 };
+        break;
+      case 'product_dsc':
+        sortObject = { productName: -1 };
+        break;
+      default:
+        sortObject = {
+          createdAt: -1,
+        };
+        break;
+    }
+    const query = {
+      pageNo: page,
+      perPage: PRODUCTS_PER_PAGE,
+      gender: gender ? gender : 'all',
+      categoryArray,
+      sizeArray,
+      sortObject,
+    };
+
+    const products = JSON.parse(await getProductsFilter(query));
+    let hasMore = true;
+    if (products.length < PRODUCTS_PER_PAGE) hasMore = false;
+    else hasMore = true;
     return (
-      <div className="lg:p-36 p-4 flex flex-col gap-12">
+      <div className="lg:p-36 p-4 flex flex-col gap-12 w-full">
         <Filter urlPath="/" />
-        <div className="  gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid">
-          {products.map((product) => (
-            <ProductItem key={product._id} product={product} />
-          ))}
-        </div>
+        <Products products={products} hasMore={hasMore} currentPageNo={page} />
       </div>
     );
   } catch (error) {
-    <div>Can't Fetch Products</div>;
+    console.log(error);
+    return <div>Can't Fetch Products</div>;
   }
 }
