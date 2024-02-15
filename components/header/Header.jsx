@@ -74,7 +74,7 @@ const Header = () => {
             </button>
           </div>
           <div className="lg:relative flex flex-col items-center lg:w-[500px] p-4">
-            <div className="">
+            <>
               <Link href="/" className="hidden md:block">
                 <Image
                   src={zara_logo}
@@ -93,7 +93,7 @@ const Header = () => {
                   alt="zara logo"
                 ></Image>
               </Link>
-            </div>
+            </>
             <OutsideClickHandler
               outsideClickHandler={() => {
                 dispatch(toggleMenu(false));
@@ -148,7 +148,7 @@ const Header = () => {
               <div className="ml-auto uppercase">Search</div>
             </div>
           </Link>
-          <ul className="flex uppercase gap-5 text-sm items-start relative">
+          <ul className="flex uppercase gap-6 md:text-sm text-xs items-start relative">
             {loading ? (
               <li>
                 <Spinner />
@@ -162,7 +162,11 @@ const Header = () => {
                 <Link href="/user/order">{profile.name}</Link>
               </li>
             )}
-
+            {isAdmin && (
+              <li className="">
+                <Link href="/admin/dashboard">Dashboard</Link>
+              </li>
+            )}
             <li className="hidden lg:block">Help</li>
             <li>
               <Link href="/cart">
@@ -171,6 +175,7 @@ const Header = () => {
                   width={40}
                   height={25}
                   alt="shopping cart"
+                  className="hidden md:inline-block"
                 ></Image>
                 <div className="bg-[#ffe800] rounded-full top-0 right-0 absolute h-5 w-5 flex justify-center items-center font-normal text-xs">
                   {totalProducts}

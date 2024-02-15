@@ -6,7 +6,7 @@ const authConfig = {
     CredentialsProvider({
       type: 'credentials',
       credentials: {},
-      async authorize(credentials, request) {
+      async authorize(credentials) {
         const { email, password } = credentials;
         //send req to api route
         const { user, error } = await fetch(

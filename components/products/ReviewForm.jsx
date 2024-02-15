@@ -1,6 +1,5 @@
 'use client';
 import useAuth from '@/lib/hooks/useAuth';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MdOutlineDelete } from 'react-icons/md';
@@ -9,7 +8,6 @@ export default function ReviewForm({ productId }) {
   const { profile } = useAuth();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
-  const router = useRouter();
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -18,7 +16,6 @@ export default function ReviewForm({ productId }) {
         );
         comments = await comments.json();
         setComments(() => comments);
-        console.log(comments);
       } catch (error) {}
     };
     fetchComments();

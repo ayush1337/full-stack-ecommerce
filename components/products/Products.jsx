@@ -19,14 +19,14 @@ const Products = ({
     router.push(`/?page=${nextPage}`);
   };
   return (
-    <div className="flex flex-col gap-6 items-center">
+    <div className="flex flex-col gap-16 items-center">
       <div className="  gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid">
         {products.map((product) => (
           <ProductItem key={product._id} product={product} />
         ))}
       </div>
       {showPageNavigator ? (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8">
           <button
             disabled={currentPageNo === 1}
             onClick={handleOnPrevPress}
