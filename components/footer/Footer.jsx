@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => {
-  return <footer>Footer</footer>;
+  return <footer className="w-full shadow-md p-8">Made with ❤ by Ayush</footer>;
 };
 
 export default Footer;
