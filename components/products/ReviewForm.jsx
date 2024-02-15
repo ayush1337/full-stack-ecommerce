@@ -19,7 +19,7 @@ export default function ReviewForm({ productId }) {
       } catch (error) {}
     };
     fetchComments();
-  }, []);
+  }, [productId]);
   const handleSubmit = async (e) => {
     try {
       if (e) e.preventDefault();

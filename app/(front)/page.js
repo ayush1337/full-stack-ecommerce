@@ -58,6 +58,6 @@ export default async function Home({ searchParams }) {
     );
   } catch (error) {
     console.log(error);
-    return <div>Can't Fetch Products</div>;
+    return <div>Cant Fetch Products</div>;
   }
 }

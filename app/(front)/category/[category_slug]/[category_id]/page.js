@@ -35,7 +35,7 @@ export default async function Category({ params }) {
     return (
       <div className="w-full min-h-screen lg:p-36 p-4">
         <h1 className="text-5xl font-extralight uppercase">
-          Oppssss... Can't Find Products
+          Oppssss... Cant Find Products
         </h1>
       </div>
     );

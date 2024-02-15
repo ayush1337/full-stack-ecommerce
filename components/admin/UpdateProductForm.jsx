@@ -219,7 +219,7 @@ const UpdateProductForm = ({ product }) => {
 
   useEffect(() => {
     setMounted(() => true);
-  });
+  }, []);
 
   if (!mounted) return <></>;
 

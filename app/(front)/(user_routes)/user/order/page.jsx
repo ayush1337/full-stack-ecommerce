@@ -33,9 +33,11 @@ const UserOrder = async () => {
 
       return <h1 className="ml-auto">Order Date: {formattedDate}</h1>;
     };
+
     return (
       <div className="flex flex-col gap-12">
         <UserMenu active="order" />
+        {orders.length === 0 && <h1>Oopss.... nothing ordered yet</h1>}
         {orders.map((order) => {
           return (
             <div

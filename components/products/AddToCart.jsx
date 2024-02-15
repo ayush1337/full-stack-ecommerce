@@ -34,7 +34,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
       }
     });
     if (notFound) setQuantity(() => 0);
-  }, [selectSize, cart]);
+  }, [selectSize, cart, product._id]);
 
   const handleProductIncrease = async () => {
     try {

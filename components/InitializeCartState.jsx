@@ -12,6 +12,6 @@ export default function InitializeCartState() {
       dispatch(fetchCartData(session.data.user.id.toString()));
     };
     if (session.status === 'authenticated') initializeCart();
-  }, [session]);
+  }, [session, dispatch]);
   return <></>;
 }

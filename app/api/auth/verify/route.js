@@ -4,7 +4,6 @@ import { isValidObjectId } from 'mongoose';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
-// import { sendEmail } from '@/app/lib/email';
 import dbConnect from '@/lib/dbConnect';
 
 export const POST = async (req) => {

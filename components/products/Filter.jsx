@@ -88,7 +88,15 @@ export default function Filter({ urlPath }) {
     } else {
       router.push(urlPath);
     }
-  }, [categoryFilter, sizeFilter, sortFilter, manSelected, womanSelected]);
+  }, [
+    categoryFilter,
+    sizeFilter,
+    sortFilter,
+    manSelected,
+    womanSelected,
+    router,
+    urlPath,
+  ]);
 
   const handleCategorySelect = (selectedOption) => {
     setCategoryFilter(() => selectedOption);

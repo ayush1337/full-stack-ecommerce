@@ -205,7 +205,7 @@ const ProductForm = () => {
 
   useEffect(() => {
     setMounted(() => true);
-  });
+  }, []);
 
   if (!mounted) return <></>;
 

@@ -33,7 +33,7 @@ const CartItem = ({ product }) => {
         setQuantity(() => cartProduct.quantity);
       }
     });
-  }, [cart]);
+  }, [cart, product._id, product.size]);
 
   const handleProductIncrease = async () => {
     try {
