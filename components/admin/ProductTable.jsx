@@ -63,14 +63,6 @@ export default function ProductTable({
               *press enter to search
             </label>
           </div>
-          <div className="cursor-pointer p-2 border-gray-100 border-2 flex gap-1 items-center ml-auto">
-            <span>Sort</span>
-            <img src={sorting} className="w-4" />
-          </div>
-
-          <div className="cursor-pointer p-2 border-gray-100 border-2">
-            <img src={download} className="w-4" />
-          </div>
         </div>
         <div className="overflow-auto">
           <table className="w-full">
@@ -183,9 +175,8 @@ export default function ProductTable({
                           }}
                           className="text-red-500 flex items-center underline "
                         >
-                          <LiaEditSolid />
                           <span className="text-xs md:text-sm ">
-                            update to out of stock
+                            empty stock
                           </span>
                         </button>
                       )}

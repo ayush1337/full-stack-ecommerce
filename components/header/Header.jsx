@@ -102,10 +102,17 @@ const Header = () => {
               <div
                 className={`${
                   !menuOpen && 'hidden'
-                } absolute top-0 left-0 -z-10 h-screen lg:h-fit pt-64 p-4 w-full pb-64 bg-white border border-black flex flex-col gap-6 `}
+                } absolute top-0 left-0 -z-10 h-screen lg:h-fit pt-64  w-full pb-64 bg-white border border-black flex flex-col items-center gap-6 `}
               >
-                <Link href="/search">
-                  <div className="bg-white border border-black h-6 min-w-[300px] flex lg:hidden items-center p-4 ">
+                <Link
+                  href="/search"
+                  onClick={() => {
+                    if (menuOpen) {
+                      dispatch(toggleMenu(false));
+                    }
+                  }}
+                >
+                  <div className="bg-white border border-black h-6 min-w-[250px] flex lg:hidden items-center p-4 ">
                     <div className="flex-grow"></div>
                     <div className="ml-auto uppercase">Search</div>
                   </div>
@@ -114,7 +121,7 @@ const Header = () => {
                 <h1 className="uppercase font-extralight text-xl">
                   Categories
                 </h1>
-                <div className="flex flex-wrap gap-4 overflow-y-scroll ">
+                <div className="flex flex-wrap gap-4 overflow-y-scroll py-32 px-6">
                   {categories.map((category) => {
                     return (
                       <Link

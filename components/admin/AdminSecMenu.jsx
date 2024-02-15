@@ -23,9 +23,6 @@ const AdminSecMenu = () => {
     },
     ,
     {
-      label: 'featured',
-    },
-    {
       label: 'sales',
       icon: <AiOutlineThunderbolt />,
     },
@@ -35,7 +32,7 @@ const AdminSecMenu = () => {
     },
   ];
   return (
-    <div className="fixed flex gap-10 bottom-8 left-1/2 -translate-x-1/2 bg-white px-6 py-4 rounded-full shadow-md z-10">
+    <div className="fixed w-full px-8 flex justify-center items-center left-1/2 -translate-x-1/2 gap-10 bottom-0  lg:w-fit lg:bottom-8  bg-white py-4 lg:rounded-full shadow-md lg:drop-shadow-2xl z-10">
       {menuItems.map((item) => {
         return (
           <button
@@ -49,7 +46,7 @@ const AdminSecMenu = () => {
             }}
           >
             <span>{item?.icon}</span>
-            <span>{item.label}</span>
+            <span className="hidden lg:inline-block">{item.label}</span>
             {currentTab === item.label && <span>•</span>}
           </button>
         );

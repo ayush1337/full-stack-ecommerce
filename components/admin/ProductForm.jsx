@@ -210,7 +210,7 @@ const ProductForm = () => {
   if (!mounted) return <></>;
 
   return (
-    <div className="w-full lg:p-24 p-4 text-xs lg:text-base">
+    <div className="w-full lg:p-24 p-4 text-xs lg:text-base pb-36">
       {/* Loading Animation */}
       {productUpload && (
         <div className="w-full fixed h-full bg-white bg-opacity-75 z-20 top-0 left-0 flex flex-col gap-4 justify-center items-center ">

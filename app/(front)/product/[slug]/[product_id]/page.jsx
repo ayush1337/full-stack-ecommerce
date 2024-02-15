@@ -1,11 +1,14 @@
 import { getSingleProduct } from '@/app/(front)/admin/products/action';
+import { auth } from '@/auth';
 import AddToCart from '@/components/products/AddToCart';
+import ReviewForm from '@/components/products/ReviewForm';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const ProductDetails = async ({ params }) => {
   try {
     const product = JSON.parse(await getSingleProduct(params.product_id));
+    const session = await auth();
     return (
       // <div>{product.productName}</div>
       <div className="mx-auto w-full grid lg:grid-cols-3 grid-flow-dense gap-6 lg:px-24 px-2 text-xs md:text-base font-thin ">
@@ -59,6 +62,7 @@ const ProductDetails = async ({ params }) => {
         </div>
 
         {/* Product Detail Ends   */}
+        <ReviewForm productId={product._id} />
       </div>
     );
   } catch (error) {
