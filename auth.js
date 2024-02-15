@@ -10,7 +10,7 @@ const authConfig = {
         const { email, password } = credentials;
         //send req to api route
         const { user, error } = await fetch(
-          'http://localhost:3000/api/auth/signin',
+          `${process.env.NEXTAUTH_URL}/api/auth/signin`,
           {
             method: 'POST',
             body: JSON.stringify({ email, password }),

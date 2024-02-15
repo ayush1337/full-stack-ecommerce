@@ -1,7 +1,6 @@
 import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/lib/models/UserModel';
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 export const POST = async (req) => {
   try {
     const body = await req.json();
