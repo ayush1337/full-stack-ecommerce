@@ -81,6 +81,7 @@ export const POST = async (req) => {
       url: checkoutSession.url,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       {
         error: 'Something went wrong',

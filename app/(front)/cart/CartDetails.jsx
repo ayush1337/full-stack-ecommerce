@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -22,17 +23,15 @@ const CartDetails = () => {
   const handleCheckout = async () => {
     try {
       router.refresh();
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        body: JSON.stringify({ cartID }),
+      const { data } = await axios.post(`/api/checkout`, {
+        cartID,
       });
-      const { error, url } = await res.json();
-      if (!res.ok) {
-        toast.error(error);
-      } else {
+      const { url } = data;
+      if (url) {
         window.location.href = url;
       }
     } catch (error) {
+      console.log(error);
       toast.error(error);
     }
   };
