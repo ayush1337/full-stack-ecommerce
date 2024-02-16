@@ -17,12 +17,21 @@ const AddToCart = ({ product, sizeBorder = false }) => {
   const [selectSize, setSelectSize] = useState('');
   const [noSize, setNoSize] = useState(false);
   const [quantity, setQuantity] = useState(0);
+  const [outOfStock, setOutOfStock] = useState(true);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const { profile, loggedIn } = useAuth();
   const router = useRouter();
   useEffect(() => {
     setMount(() => true);
+    let flag = true;
+    Object.entries(product.stock).forEach(([key, value]) => {
+      if (value > 0) {
+        flag = false;
+      }
+    });
+
+    if (!flag) setOutOfStock(() => false);
   }, []);
 
   useEffect(() => {
@@ -96,7 +105,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
 
         <div className="grid grid-cols-2 gap-4">
           {Object.entries(product.stock).map(([key, value]) => {
-            if (value > 0)
+            if (value > 0) {
               return (
                 <button
                   key={key}
@@ -115,7 +124,13 @@ const AddToCart = ({ product, sizeBorder = false }) => {
                   {key}
                 </button>
               );
+            }
           })}
+          {outOfStock && (
+            <div className="xl:text-base text-xs text-red-500">
+              Product out of stock
+            </div>
+          )}
         </div>
       </div>
 

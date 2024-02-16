@@ -11,7 +11,6 @@ export const createCart = async ({
 }) => {
   try {
     await dbConnect();
-
     //find the cart
     let cart = await CartModel.findOne({ userId });
 
@@ -21,7 +20,8 @@ export const createCart = async ({
     //check product exists
     const existingProductIndex = cart.products.findIndex(
       (cartProduct) =>
-        cartProduct._id.toString() === product._id && product.size === size
+        cartProduct.product._id.toString() === product._id &&
+        cartProduct.size === size
     );
 
     //if you want to delete
