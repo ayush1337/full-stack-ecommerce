@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const CartDetails = () => {
   const router = useRouter();
   const cart = useSelector((state) => state.cart);
-  const { cartID } = cart;
+  const [cartID, setCartID] = useState('');
   const [price, setPrice] = useState(0);
   useEffect(() => {
     let totalPrice = 0;
@@ -16,6 +16,8 @@ const CartDetails = () => {
       totalPrice = totalPrice + product.price * product.quantity;
     });
     setPrice(() => totalPrice);
+    const { cartID } = cart;
+    setCartID(() => cartID);
   }, [cart]);
   const handleCheckout = async () => {
     try {
