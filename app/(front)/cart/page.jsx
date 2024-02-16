@@ -1,14 +1,6 @@
 import React from 'react';
-import CartProducts from './CartProducts';
-import CartDetails from './CartDetails';
+import CartPage from './Cart';
 
-const CartPage = () => {
-  return (
-    <div className="w-screen min-h-screen grid grid-cols-4 gap-2 lg:px-36 px-8 pb-24 overflow-x-hidden ">
-      <CartProducts />
-      <CartDetails />
-    </div>
-  );
-};
-
-export default CartPage;
+export default function Cart() {
+  return <CartPage />;
+}

@@ -9,7 +9,6 @@ const CartDetails = () => {
   const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const { cartID } = cart;
-  console.log(cartID);
   const [price, setPrice] = useState(0);
   useEffect(() => {
     let totalPrice = 0;
