@@ -31,7 +31,6 @@ const CartDetails = () => {
         window.location.href = url;
       }
     } catch (error) {
-      console.log(error);
       toast.error(error);
     }
   };
