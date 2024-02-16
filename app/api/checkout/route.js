@@ -28,7 +28,8 @@ export const POST = async (req) => {
         },
         { status: 401 }
       );
-    let cart = await CartModel.findById(cartID).populate('products.productId');
+    let cart = JSON.stringify(await CartModel.findById(cartID));
+    cart = JSON.parse(cart);
     if (!cart)
       return NextResponse.json(
         {
@@ -37,10 +38,9 @@ export const POST = async (req) => {
         { status: 401 }
       );
     const cartItems = cart.products.map((singleProduct) => {
-      const { productId, size, quantity } = singleProduct;
-
+      const { product, size, quantity } = singleProduct;
       return {
-        ...productId,
+        ...product,
         size,
         quantity,
       };
@@ -49,10 +49,10 @@ export const POST = async (req) => {
       return {
         price_data: {
           currency: 'INR',
-          unit_amount: Number(product._doc.price) * 100,
+          unit_amount: Number(product.price) * 100,
           product_data: {
-            name: product._doc.productName,
-            images: [product._doc.image],
+            name: product.productName,
+            images: [product.image],
           },
         },
         quantity: product.quantity,

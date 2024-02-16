@@ -14,7 +14,7 @@ export const POST = async (req) => {
   const signature = req.headers.get('stripe-signature');
   let event;
   try {
-    event = await stripe.webhooks.constructEvent(
+    event = await stripe.webhooks.constructEventAsync(
       data,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
@@ -36,23 +36,13 @@ export const POST = async (req) => {
     const { cartId, userId, type } = customer.metadata;
 
     if (type === 'checkout') {
-      let cart = await CartModel.findById(cartId).populate(
-        'products.productId'
-      );
+      let cart = JSON.stringify(await CartModel.findById(cartId));
+      cart = JSON.parse(cart);
       let cartItems = cart.products.map((singleProduct) => {
-        const { productId, size, quantity } = singleProduct;
+        const { product, size, quantity } = singleProduct;
 
         return {
-          ...productId,
-          size,
-          quantity,
-        };
-      });
-      cartItems = cartItems.map((product) => {
-        const { _doc, size, quantity } = product;
-        return {
-          ..._doc,
-          id: _doc._id,
+          ...product,
           size,
           quantity,
         };

@@ -5,9 +5,9 @@ import { NextResponse } from 'next/server';
 
 export const POST = async (req) => {
   try {
-    console.log('hi');
+    await dbConnect();
     const session = await auth();
-    console.log(session);
+
     if (!session?.user)
       return NextResponse.json(
         {
@@ -16,9 +16,7 @@ export const POST = async (req) => {
         { status: 401 }
       );
 
-    let cart = await CartModel.findOne({ userId: session?.user?.id }).populate(
-      'products.productId'
-    );
+    let cart = await CartModel.findOne({ userId: session?.user?.id });
     if (!cart)
       return NextResponse.json(
         {

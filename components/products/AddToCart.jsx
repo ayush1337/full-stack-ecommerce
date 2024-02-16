@@ -40,7 +40,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
     try {
       await createCart({
         userId: profile.id,
-        productId: product._id,
+        product,
         size: selectSize,
         isPositive: true,
         product,
@@ -55,7 +55,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
     try {
       await createCart({
         userId: profile.id,
-        productId: product._id,
+        product,
         size: selectSize,
         isPositive: false,
       });
@@ -131,7 +131,7 @@ const AddToCart = ({ product, sizeBorder = false }) => {
               if (selectSize !== '') {
                 await createCart({
                   userId: profile.id,
-                  productId: product._id,
+                  product,
                   size: selectSize,
                 });
                 dispatch(

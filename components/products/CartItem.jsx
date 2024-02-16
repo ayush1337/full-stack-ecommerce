@@ -39,10 +39,9 @@ const CartItem = ({ product }) => {
     try {
       await createCart({
         userId: profile.id,
-        productId: product._id,
+        product,
         size: product.size,
         isPositive: true,
-        product,
       });
       dispatch(add({ ...product, size: product.size }));
     } catch (error) {
@@ -54,7 +53,7 @@ const CartItem = ({ product }) => {
     try {
       await createCart({
         userId: profile.id,
-        productId: product._id,
+        product,
         size: product.size,
         isPositive: false,
       });
@@ -68,7 +67,7 @@ const CartItem = ({ product }) => {
     try {
       await createCart({
         userId: profile.id,
-        productId: product._id,
+        product,
         size: product.size,
         deleteItem: true,
       });
