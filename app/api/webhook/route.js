@@ -14,7 +14,7 @@ export const POST = async (req) => {
   const signature = req.headers.get('stripe-signature');
   let event;
   try {
-    event = await stripe.webhooks.constructEventAsync(
+    event = await stripe.webhooks.constructEvent(
       data,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
