@@ -1,8 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zarafy E-commerce web app with admin panel
+
+Full-stack E-commerce web app using the Next.js React framework for Front-end, with
+Redux for state management, MongoDB as database, and Stripe for payment gateway integration.
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies
+
+```bash
+npm install
+```
+
+Second, run the development server:
+
+
 
 ```bash
 npm run dev
@@ -16,21 +27,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project Screenshots
 
-## Learn More
+![image](https://github.com/ayush1337/full-stack-ecommerce/assets/28340990/13f3dd83-be34-47f0-b29d-a992c7d7ed9a)
 
-To learn more about Next.js, take a look at the following resources:
+![image](https://github.com/ayush1337/full-stack-ecommerce/assets/28340990/20c05218-1e39-4025-9b12-63d207e99495)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![image](https://github.com/ayush1337/full-stack-ecommerce/assets/28340990/f2e0a5f4-4218-46c8-bc63-f15fcb6ce153)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![image](https://github.com/ayush1337/full-stack-ecommerce/assets/28340990/f6247a89-39fd-4c6e-929a-2f96e8d8c2b5)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
